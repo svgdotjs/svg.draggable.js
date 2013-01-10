@@ -2,7 +2,7 @@
 
 A plugin for the [svgjs.com](http://svgjs.com) library to make elements draggable.
 
-Svg.easing.js is licensed under the terms of the MIT License.
+Svg.draggable.js is licensed under the terms of the MIT License.
 
 ## Usage
 Include this plugin after including the svg.js library in your html document.
