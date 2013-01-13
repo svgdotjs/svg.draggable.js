@@ -18,6 +18,40 @@ rect.draggable();
 
 Yes indeed, that's it! Now the `rect` is draggable.
 
+# Callbacks
+There are four different callbacks available, `beforedrag`, `dragstart`, `dragmove` and `dragend`. This is how you assign them:
+
+```javascript
+rect.dragstart = function() {
+  ...do your thing...
+};
+```
+
+The `beforedrag` callback will pass the event in the first argument:
+
+```javascript
+rect.beforestart = function(event) {
+  ...do your thing...
+};
+```
+
+The `dragstart`, `dragmove` and `dragend` callbacks will pass the delta values as an object in the first argument and the event as the second:
+
+```javascript
+rect.dragmove = function(delta, event) {
+  console.log(delta.x, delta.y);
+};
+```
+
+
+## Remove
+The draggable functionality van be removed with the `fixed()` method:
+
+```javascript
+rect.fixed();
+```
+
+
 ## Viewbox
 This plugin is viewBox aware but there is only one thing that you need to keep in mind. If you work with a viewBox on the parent element you need to set the width and height attributes to have the same aspect ratio. So let's say you are using `viewbox='0 0 150 100'` you have to make sure the aspect ratio of `width` and `height` is the same:
 
