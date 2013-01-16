@@ -1,4 +1,4 @@
-// svg.draggable.js 0.3 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+// svg.draggable.js 0.4 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
 
 SVG.extend(SVG.Element, {
   // Make element draggable
@@ -40,7 +40,7 @@ SVG.extend(SVG.Element, {
       
       /* invoke any callbacks */
       if (element.dragstart)
-        element.dragstart({ x: 0, y: 0 }, event);
+        element.dragstart({ x: 0, y: 0, zoom: element.startPosition.zoom }, event);
       
     };
     
@@ -49,8 +49,9 @@ SVG.extend(SVG.Element, {
       if (element.startEvent) {
         /* calculate move position */
         var delta = {
-          x: event.pageX - element.startEvent.pageX,
-          y: event.pageY - element.startEvent.pageY
+          x:    event.pageX - element.startEvent.pageX,
+          y:    event.pageY - element.startEvent.pageY,
+          zoom: element.startPosition.zoom
         };
 
         /* move the element to the right position */
@@ -69,8 +70,9 @@ SVG.extend(SVG.Element, {
     end = function(event) {
       /* calculate move position */
       var delta = {
-        x: event.pageX - element.startEvent.pageX,
-        y: event.pageY - element.startEvent.pageY
+        x:    event.pageX - element.startEvent.pageX,
+        y:    event.pageY - element.startEvent.pageY,
+        zoom: element.startPosition.zoom
       };
       
       /* reset store */
