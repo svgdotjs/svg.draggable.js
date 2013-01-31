@@ -1,4 +1,4 @@
-// svg.draggable.js 0.4 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+// svg.draggable.js 0.5 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
 
 SVG.extend(SVG.Element, {
   // Make element draggable
@@ -18,7 +18,10 @@ SVG.extend(SVG.Element, {
         element.beforedrag(event);
       
       /* get element bounding box */
-      box = element.bbox();
+      if (element instanceof SVG.G)
+        box = { x: element.transform('x'), y: element.transform('y') };
+      else
+        box = element.bbox();
       
       /* store event */
       element.startEvent = event || window.event;
