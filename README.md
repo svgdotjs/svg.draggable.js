@@ -44,7 +44,7 @@ rect.dragmove = function(delta, event) {
 ```
 
 ## Constraint
-The drag functionality can be limited with a given box. You can pass the the constraint values as an object:
+The drag functionality can be limited within a given box. You can pass the the constraint values as an object:
 
 ```javascript
 rect.draggable({
