@@ -18,7 +18,7 @@ rect.draggable();
 
 Yes indeed, that's it! Now the `rect` is draggable.
 
-# Callbacks
+## Callbacks
 There are four different callbacks available, `beforedrag`, `dragstart`, `dragmove` and `dragend`. This is how you assign them:
 
 ```javascript
@@ -41,6 +41,18 @@ The `dragstart`, `dragmove` and `dragend` callbacks will pass the delta values a
 rect.dragmove = function(delta, event) {
   console.log(delta.x, delta.y);
 };
+```
+
+## Constraint
+The drag functionality can be limited with a given box. You can pass the the constraint values as an object:
+
+```javascript
+rect.draggable({
+  minX: 10
+, minY: 15
+, maxX: 200
+, maxY: 100
+});
 ```
 
 

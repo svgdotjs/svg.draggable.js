@@ -1,11 +1,14 @@
-// svg.draggable.js 0.5 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+// svg.draggable.js 0.6 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
 
 SVG.extend(SVG.Element, {
   // Make element draggable
-  draggable: function() {
+  draggable: function(constraint) {
     var start, drag, end,
         element = this,
         parent  = this._parent(SVG.Nested) || this._parent(SVG.Doc);
+    
+    /* ensure constraint object */
+    constraint = constraint || {};
     
     /* start dragging */
     start = function(event) {
@@ -28,9 +31,11 @@ SVG.extend(SVG.Element, {
       
       /* store start position */
       element.startPosition = {
-        x:    box.x,
-        y:    box.y,
-        zoom: 1
+        x:      box.x
+      , y:      box.y
+      , width:  box.width
+      , height: box.height
+      , zoom:   1
       };
       
       /* calculate zoom according to viewbox */
@@ -51,17 +56,32 @@ SVG.extend(SVG.Element, {
     drag = function(event) {
       if (element.startEvent) {
         /* calculate move position */
-        var delta = {
-          x:    event.pageX - element.startEvent.pageX,
-          y:    event.pageY - element.startEvent.pageY,
-          zoom: element.startPosition.zoom
-        };
-
-        /* move the element to the right position */
-        element.move(
-          element.startPosition.x + delta.x / element.startPosition.zoom,
-          element.startPosition.y + delta.y / element.startPosition.zoom
-        );
+        var x, y
+          , width  = element.startPosition.width
+          , height = element.startPosition.height
+          , delta  = {
+              x:    event.pageX - element.startEvent.pageX,
+              y:    event.pageY - element.startEvent.pageY,
+              zoom: element.startPosition.zoom
+            };
+        
+        /* caculate new position */
+        x = element.startPosition.x + delta.x / element.startPosition.zoom;
+        y = element.startPosition.y + delta.y / element.startPosition.zoom;
+        
+        /* keep element within constrained box */
+        if (constraint.minX != null && x < constraint.minX)
+          x = constraint.minX;
+        else if (constraint.maxX != null && x > constraint.maxX - width)
+          x = constraint.maxX - width;
+        
+        if (constraint.minY != null && y < constraint.minY)
+          y = constraint.minY;
+        else if (constraint.maxY != null && y > constraint.maxY - height)
+          y = constraint.maxY - height;
+        
+        /* move the element to its new position */
+        element.move(x, y);
 
         /* invoke any callbacks */
         if (element.dragmove)
