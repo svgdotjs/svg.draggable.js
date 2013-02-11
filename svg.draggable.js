@@ -1,4 +1,4 @@
-// svg.draggable.js 0.6 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+// svg.draggable.js 0.7 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
 
 SVG.extend(SVG.Element, {
   // Make element draggable
@@ -117,6 +117,10 @@ SVG.extend(SVG.Element, {
     /* disable draggable */
     element.fixed = function() {
       element.off('mousedown', start);
+      
+      SVG.off(window, 'mousemove', drag);
+      SVG.off(window, 'mouseup',   end);
+      
       start = drag = end = null;
       
       return element;
