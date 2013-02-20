@@ -73,4 +73,5 @@ var draw = svg('paper').attr('viewBox', '0 0 150 100').size(600, 400);
 
 
 ## Dependencies
+This module requires svg.js v0.6.
 This plugin requires the event.js module.
