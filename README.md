@@ -10,10 +10,10 @@ Include this plugin after including the svg.js library in your html document.
 To make an element draggable
 
 ```javascript
-var draw = SVG('paper').size(400, 400);
-var rect = draw.rect(100, 100);
+var draw = SVG('canvas').size(400, 400)
+var rect = draw.rect(100, 100)
 
-rect.draggable();
+rect.draggable()
 ```
 
 Yes indeed, that's it! Now the `rect` is draggable.
@@ -24,7 +24,7 @@ There are four different callbacks available, `beforedrag`, `dragstart`, `dragmo
 ```javascript
 rect.dragstart = function() {
   ...do your thing...
-};
+}
 ```
 
 The `beforedrag` callback will pass the event in the first argument:
@@ -32,15 +32,15 @@ The `beforedrag` callback will pass the event in the first argument:
 ```javascript
 rect.beforestart = function(event) {
   ...do your thing...
-};
+}
 ```
 
 The `dragstart`, `dragmove` and `dragend` callbacks will pass the delta values as an object in the first argument and the event as the second:
 
 ```javascript
 rect.dragmove = function(delta, event) {
-  console.log(delta.x, delta.y);
-};
+  console.log(delta.x, delta.y)
+}
 ```
 
 ## Constraint
@@ -52,7 +52,7 @@ rect.draggable({
 , minY: 15
 , maxX: 200
 , maxY: 100
-});
+})
 ```
 
 
@@ -60,7 +60,7 @@ rect.draggable({
 The draggable functionality van be removed with the `fixed()` method:
 
 ```javascript
-rect.fixed();
+rect.fixed()
 ```
 
 
@@ -68,7 +68,7 @@ rect.fixed();
 This plugin is viewBox aware but there is only one thing that you need to keep in mind. If you work with a viewBox on the parent element you need to set the width and height attributes to have the same aspect ratio. So let's say you are using `viewbox='0 0 150 100'` you have to make sure the aspect ratio of `width` and `height` is the same:
 
 ```javascript
-var draw = SVG('paper').attr('viewBox', '0 0 150 100').size(600, 400);
+var draw = SVG('paper').attr('viewBox', '0 0 150 100').size(600, 400)
 ```
 
 
