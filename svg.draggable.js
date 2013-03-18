@@ -1,4 +1,4 @@
-// svg.draggable.js 0.8 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+// svg.draggable.js 0.9 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
 
 SVG.extend(SVG.Element, {
   // Make element draggable
@@ -7,11 +7,17 @@ SVG.extend(SVG.Element, {
         element = this,
         parent  = this._parent(SVG.Nested) || this._parent(SVG.Doc)
     
+    /* remove draggable if already present */
+    if (typeof this.fixed == 'function')
+      this.fixed()
+    
     /* ensure constraint object */
     constraint = constraint || {}
     
     /* start dragging */
     start = function(event) {
+      event = event || window.event
+      
       var box
       
       /* invoke any callbacks */
@@ -25,7 +31,7 @@ SVG.extend(SVG.Element, {
         box = element.bbox()
       
       /* store event */
-      element.startEvent = event || window.event
+      element.startEvent = event
       
       /* store start position */
       element.startPosition = {
@@ -49,6 +55,8 @@ SVG.extend(SVG.Element, {
     
     /* while dragging */
     drag = function(event) {
+      event = event || window.event
+      
       if (element.startEvent) {
         /* calculate move position */
         var x, y
@@ -87,6 +95,8 @@ SVG.extend(SVG.Element, {
     
     /* when dragging ends */
     end = function(event) {
+      event = event || window.event
+      
       /* calculate move position */
       var delta = {
         x:    event.pageX - element.startEvent.pageX,
