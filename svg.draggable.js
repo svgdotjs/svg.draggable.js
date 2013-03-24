@@ -1,4 +1,4 @@
-// svg.draggable.js 0.9 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+// svg.draggable.js 0.10 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
 
 SVG.extend(SVG.Element, {
   // Make element draggable
@@ -26,7 +26,7 @@ SVG.extend(SVG.Element, {
       
       /* get element bounding box */
       if (element instanceof SVG.G)
-        box = { x: element.transform('x'), y: element.transform('y') }
+        box = { x: element.trans.x, y: element.trans.y }
       else
         box = element.bbox()
       
@@ -72,6 +72,12 @@ SVG.extend(SVG.Element, {
         /* caculate new position [with rotation correction] */
         x = element.startPosition.x + (delta.x * Math.cos(rotation) + delta.y * Math.sin(rotation))  / element.startPosition.zoom
         y = element.startPosition.y + (delta.y * Math.cos(rotation) + delta.x * Math.sin(-rotation)) / element.startPosition.zoom
+        
+        /* recalculate any offset */
+        if (element._offset) {
+          x -= element._offset.x
+          y -= element._offset.y
+        }
         
         /* keep element within constrained box */
         if (constraint.minX != null && x < constraint.minX)
