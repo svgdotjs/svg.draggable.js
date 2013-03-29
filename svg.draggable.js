@@ -1,11 +1,11 @@
-// svg.draggable.js 0.10 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+// svg.draggable.js 0.11 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
 
 SVG.extend(SVG.Element, {
   // Make element draggable
   draggable: function(constraint) {
-    var start, drag, end,
-        element = this,
-        parent  = this._parent(SVG.Nested) || this._parent(SVG.Doc)
+    var start, drag, end
+      , element = this
+      , parent  = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc)
     
     /* remove draggable if already present */
     if (typeof this.fixed == 'function')
@@ -26,7 +26,17 @@ SVG.extend(SVG.Element, {
       
       /* get element bounding box */
       if (element instanceof SVG.G)
-        box = { x: element.trans.x, y: element.trans.y }
+        box = {
+          x:      element.trans.x
+        , y:      element.trans.y
+        }
+      else if (element instanceof SVG.Nested)
+        box = {
+          x:      element.x()
+        , y:      element.y()
+        , width:  element.attr('width')
+        , height: element.attr('height')
+        }
       else
         box = element.bbox()
       
