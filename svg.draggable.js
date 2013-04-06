@@ -1,4 +1,4 @@
-// svg.draggable.js 0.11 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+// svg.draggable.js 0.12 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
 
 SVG.extend(SVG.Element, {
   // Make element draggable
@@ -25,20 +25,20 @@ SVG.extend(SVG.Element, {
         element.beforedrag(event)
       
       /* get element bounding box */
-      if (element instanceof SVG.G)
-        box = {
-          x:      element.trans.x
-        , y:      element.trans.y
-        }
-      else if (element instanceof SVG.Nested)
+      box = element.bbox()
+      
+      if (element instanceof SVG.G) {
+        box.x = element.trans.x
+        box.y = element.trans.y
+        
+      } else if (element instanceof SVG.Nested) {
         box = {
           x:      element.x()
         , y:      element.y()
         , width:  element.attr('width')
         , height: element.attr('height')
         }
-      else
-        box = element.bbox()
+      }
       
       /* store event */
       element.startEvent = event
@@ -61,7 +61,9 @@ SVG.extend(SVG.Element, {
       if (element.dragstart)
         element.dragstart({ x: 0, y: 0, zoom: element.startPosition.zoom }, event)
       
-    };
+      /* prevent selection dragging */
+      event.preventDefault ? event.preventDefault() : event.returnValue = false
+    }
     
     /* while dragging */
     drag = function(event) {
@@ -146,7 +148,7 @@ SVG.extend(SVG.Element, {
       start = drag = end = null
       
       return element
-    };
+    }
     
     return this
   }
