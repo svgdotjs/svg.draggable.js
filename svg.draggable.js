@@ -7,6 +7,7 @@ SVG.extend(SVG.Element, {
       , element = this
       , parent  = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc)
       , isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints
+      , isiOS = navigator.userAgent.match(/(ip(hone|od|ad))/i) ? true : false
     
     /* remove draggable if already present */
     if (typeof this.fixed == 'function')
@@ -90,10 +91,18 @@ SVG.extend(SVG.Element, {
           , delta
 
         if (isTouch) {
-          delta = {
-            x:    event.changedTouches[0].pageX - element.startEvent.changedTouches[0].pageX,
-            y:    event.changedTouches[0].pageY - element.startEvent.changedTouches[0].pageY,
-            zoom: element.startPosition.zoom
+          if (isiOS) {
+            delta = {
+              x:    event.pageX - element.startEvent.pageX,
+              y:    event.pageY - element.startEvent.pageY,
+              zoom: element.startPosition.zoom
+            }
+          } else {
+            delta = {
+              x:    event.changedTouches[0].pageX - element.startEvent.changedTouches[0].pageX,
+              y:    event.changedTouches[0].pageY - element.startEvent.changedTouches[0].pageY,
+              zoom: element.startPosition.zoom
+            }
           }
         } else {
           delta = {
@@ -140,10 +149,18 @@ SVG.extend(SVG.Element, {
 
       /* calculate move position */
       if (isTouch) {
-        delta = {
-          x:    event.changedTouches[0].pageX - element.startEvent.changedTouches[0].pageX,
-          y:    event.changedTouches[0].pageY - element.startEvent.changedTouches[0].pageY,
-          zoom: element.startPosition.zoom
+        if (isiOS) {
+          delta = {
+            x:    event.pageX - element.startEvent.pageX,
+            y:    event.pageY - element.startEvent.pageY,
+            zoom: element.startPosition.zoom
+          }
+        } else {
+          delta = {
+            x:    event.changedTouches[0].pageX - element.startEvent.changedTouches[0].pageX,
+            y:    event.changedTouches[0].pageY - element.startEvent.changedTouches[0].pageY,
+            zoom: element.startPosition.zoom
+          }
         }
       } else {
         delta = {
