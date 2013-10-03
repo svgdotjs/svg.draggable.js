@@ -101,6 +101,13 @@ SVG.extend(SVG.Element, {
           y = constraint.minY
         else if (constraint.maxY != null && y > constraint.maxY - height)
           y = constraint.maxY - height
+          
+         /*  add snapping to grid if option is specified */
+         if (constraint.snapDistance != null && x % constraint.snapDistance != 0)
+           x = x - (x % constraint.snapDistance)
+         if (constraint.snapDistance != null && y % constraint.snapDistance != 0)
+           y = y - (y % constraint.snapDistance)
+
         
         /* move the element to its new position */
         element.move(x, y)
