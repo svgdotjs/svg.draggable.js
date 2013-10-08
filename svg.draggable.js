@@ -55,7 +55,10 @@ SVG.extend(SVG.Element, {
       
       /* add while and end events to window */
       SVG.on(window, 'mousemove', drag)
-      SVG.on(window, 'mouseup',   end)
+      SVG.on(window, 'touchmove', drag)
+      
+      SVG.on(window, 'mouseup', end)
+      SVG.on(window, 'touchend', end)
       
       /* invoke any callbacks */
       if (element.dragstart)
@@ -128,7 +131,10 @@ SVG.extend(SVG.Element, {
 
       /* remove while and end events to window */
       SVG.off(window, 'mousemove', drag)
-      SVG.off(window, 'mouseup',   end)
+      SVG.off(window, 'touchmove', drag)
+      
+      SVG.off(window, 'mouseup', end)
+      SVG.off(window, 'touchend', end)
 
       /* invoke any callbacks */
       if (element.dragend)
@@ -137,13 +143,18 @@ SVG.extend(SVG.Element, {
     
     /* bind mousedown event */
     element.on('mousedown', start)
+    element.on('touchstart', start)
     
     /* disable draggable */
     element.fixed = function() {
       element.off('mousedown', start)
+      element.off('touchstart', start)
       
       SVG.off(window, 'mousemove', drag)
-      SVG.off(window, 'mouseup',   end)
+      SVG.off(window, 'touchmove', drag)
+      
+      SVG.off(window, 'mouseup', end)
+      SVG.off(window, 'touchend', end)
       
       start = drag = end = null
       
