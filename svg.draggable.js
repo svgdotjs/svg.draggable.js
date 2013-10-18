@@ -150,6 +150,12 @@ SVG.extend(SVG.Element, {
       return element
     }
     
+    /* Sets new constraint on the element */
+		element.setConstraint = function(newConstraint){
+			constraint = newConstraint || {};
+		}
+
+    
     return this
   }
   
