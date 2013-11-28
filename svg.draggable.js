@@ -6,7 +6,7 @@ SVG.extend(SVG.Element, {
         var start, drag, end, startEvent, dragEvent, endEvent
       , element = this
       , parent  = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc)
-      , isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints
+      , isTouch = 'ontouchstart' in window || (navigator.msMaxTouchPoints && !navigator.msPointerEnabled )
       , isiOS = navigator.userAgent.match(/(ip(hone|od|ad))/i) ? true : false
     
     /* remove draggable if already present */
