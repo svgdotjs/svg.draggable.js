@@ -108,13 +108,22 @@ SVG.extend(SVG.Element, {
         if (typeof constraint == "function") {
           var coord = constraint(x, y)
 
-          if (typeof coord == "object") {
-            element.move(coord.x, coord.y)
-          }
-          else if (typeof coord == "boolean") {
-            if (coord) {
-              move(x, y)
+          if (typeof coord.x == "boolean") {
+            if (coord.x) {
+              element.x(x)
             }
+          }
+          else if (typeof coord.x == "number") {
+            element.x(coord.x)
+          }
+
+          if (typeof coord.y == "boolean") {
+            if (coord.y) {
+              element.y(y)
+            }
+          }
+          else if (typeof coord.y == "number") {
+            element.y(coord.y)
           }
         }
         else if (typeof constraint == "object") {
