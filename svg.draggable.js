@@ -1,3 +1,5 @@
+//svg.draggable.js 0.12 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+//extended by Florian Loch
 SVG.extend(SVG.Element, {
   // Make element draggable
   // Constraint might be a object (as described in readme.md) or a function in the form "function (x, y)" that gets called before every move.
