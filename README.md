@@ -70,7 +70,7 @@ rect.draggable(function (x, y) {
 
 	return res;
 });
-´´´
+```
 
 
 ## Remove
