@@ -55,6 +55,23 @@ rect.draggable({
 })
 ```
 
+### More advanced limiting by callback function
+Instead of calling draggable() with an object you might also call it with a function. This function can return a boolean or a object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
+
+The following example will prevent the rectangle from "crossing the imaginary border" at x = 300:
+
+```javascript
+rect.draggable(function (x, y) {
+	var res = {x: x, y: y};
+	
+	if (x > 300) {
+		res.x = 300;
+	}
+
+	return res;
+});
+´´´
+
 
 ## Remove
 The draggable functionality van be removed with the `fixed()` method:
