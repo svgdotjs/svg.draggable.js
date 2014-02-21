@@ -1,7 +1,9 @@
-// svg.draggable.js 0.12 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
-
+//svg.draggable.js 0.12 - Copyright (c) 2013 Wout Fierens - Licensed under the MIT license
+//extended by Florian Loch
 SVG.extend(SVG.Element, {
   // Make element draggable
+  // Constraint might be a object (as described in readme.md) or a function in the form "function (x, y)" that gets called before every move.
+  // The function can return a boolean or a object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
   draggable: function(constraint) {
     var start, drag, end
       , element = this
@@ -102,8 +104,22 @@ SVG.extend(SVG.Element, {
         else if (constraint.maxY != null && y > constraint.maxY - height)
           y = constraint.maxY - height
         
-        /* move the element to its new position */
-        element.move(x, y)
+        /* move the element to its new position, if possible by constraint*/
+        if (typeof constraint == "function") {
+          var coord = constraint(x, y)
+
+          if (typeof coord == "object") {
+            element.move(coord.x, coord.y)
+          }
+          else if (typeof coord == "boolean") {
+            if (coord) {
+              move(x, y)
+            }
+          }
+        }
+        else if (typeof constraint == "object") {
+          element.move(x, y)          
+        }
 
         /* invoke any callbacks */
         if (element.dragmove)
@@ -153,4 +169,4 @@ SVG.extend(SVG.Element, {
     return this
   }
   
-})
+});
