@@ -106,7 +106,7 @@ SVG.extend(SVG.Element, {
         
         /* move the element to its new position, if possible by constraint*/
         if (typeof constraint == "function") {
-          var coord = constraint(x, y)
+          var coord = constraint(x, y, element)
           var xTo = element.x()
           var yTo = element.y()
 
@@ -140,7 +140,7 @@ SVG.extend(SVG.Element, {
           /* invoke any callbacks */
           if (element.dragmove) {
             delta.x = x - element.startPosition.x
-            delta.y = y - elemen.startPosition.y
+            delta.y = y - element.startPosition.y
             delta.coord = {
               x: x,
               y: y
