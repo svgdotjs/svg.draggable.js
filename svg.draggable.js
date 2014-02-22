@@ -162,7 +162,7 @@ SVG.extend(SVG.Element, {
         coord: {
           x: element.x(),
           y: element.y()
-        }
+        },
         zoom: element.startPosition.zoom
       }
       
