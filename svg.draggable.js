@@ -107,32 +107,47 @@ SVG.extend(SVG.Element, {
         /* move the element to its new position, if possible by constraint*/
         if (typeof constraint == "function") {
           var coord = constraint(x, y)
+          var xTo = element.x()
+          var yTo = element.y()
 
           if (typeof coord.x == "boolean") {
             if (coord.x) {
-              element.x(x)
+              xTo = x
             }
           }
           else if (typeof coord.x == "number") {
-            element.x(coord.x)
+            xTo = coord.x
           }
 
           if (typeof coord.y == "boolean") {
             if (coord.y) {
-              element.y(y)
+              yTo = y
             }
           }
           else if (typeof coord.y == "number") {
-            element.y(coord.y)
+            yTo = coord.y
           }
+          
+          move(xTo, yTo)
         }
         else if (typeof constraint == "object") {
-          element.move(x, y)          
+          move(x, y)          
         }
 
-        /* invoke any callbacks */
-        if (element.dragmove)
-          element.dragmove(delta, event)
+        function move(x, y) {
+          element.move(x, y)
+
+          /* invoke any callbacks */
+          if (element.dragmove) {
+            delta.x = x - element.startPosition.x
+            delta.y = y - elemen.startPosition.y
+            delta.coord = {
+              x: x,
+              y: y
+            }
+            element.dragmove(delta, event)
+          }
+        }
       }
     }
     
@@ -142,8 +157,12 @@ SVG.extend(SVG.Element, {
       
       /* calculate move position */
       var delta = {
-        x:    event.pageX - element.startEvent.pageX,
-        y:    event.pageY - element.startEvent.pageY,
+        x: element.x() - element.startPosition.x,
+        y: element.y() - element.startPosition.y,
+        coord: {
+          x: element.x(),
+          y: element.y()
+        }
         zoom: element.startPosition.zoom
       }
       
