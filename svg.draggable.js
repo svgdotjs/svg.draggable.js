@@ -106,24 +106,48 @@ SVG.extend(SVG.Element, {
         
         /* move the element to its new position, if possible by constraint*/
         if (typeof constraint == "function") {
-          var coord = constraint(x, y)
+          var coord = constraint(x, y, element)
+          var xTo = element.x()
+          var yTo = element.y()
 
-          if (typeof coord == "object") {
-            element.move(coord.x, coord.y)
-          }
-          else if (typeof coord == "boolean") {
-            if (coord) {
-              move(x, y)
+          if (typeof coord.x == "boolean") {
+            if (coord.x) {
+              xTo = x
             }
           }
+          else if (typeof coord.x == "number") {
+            xTo = coord.x
+          }
+
+          if (typeof coord.y == "boolean") {
+            if (coord.y) {
+              yTo = y
+            }
+          }
+          else if (typeof coord.y == "number") {
+            yTo = coord.y
+          }
+          
+          move(xTo, yTo)
         }
         else if (typeof constraint == "object") {
-          element.move(x, y)          
+          move(x, y)          
         }
 
-        /* invoke any callbacks */
-        if (element.dragmove)
-          element.dragmove(delta, event)
+        function move(x, y) {
+          element.move(x, y)
+
+          /* invoke any callbacks */
+          if (element.dragmove) {
+            delta.x = x - element.startPosition.x
+            delta.y = y - element.startPosition.y
+            delta.coord = {
+              x: x,
+              y: y
+            }
+            element.dragmove(delta, event)
+          }
+        }
       }
     }
     
@@ -133,8 +157,12 @@ SVG.extend(SVG.Element, {
       
       /* calculate move position */
       var delta = {
-        x:    event.pageX - element.startEvent.pageX,
-        y:    event.pageY - element.startEvent.pageY,
+        x: element.x() - element.startPosition.x,
+        y: element.y() - element.startPosition.y,
+        coord: {
+          x: element.x(),
+          y: element.y()
+        },
         zoom: element.startPosition.zoom
       }
       
