@@ -72,6 +72,20 @@ rect.draggable(function (x, y, elem) {
 });
 ```
 
+With this you can also easily achieve some snapping functionality:
+
+```javascript
+var snapRange = 50;
+rect.draggable(function (x, y, elem) {
+	var res = {};
+	
+	res.x = x - (x % snapRange);
+	res.y = y - (y % snapRange);
+	
+	return res;
+});
+```
+
 
 ## Remove
 The draggable functionality van be removed with the `fixed()` method:
