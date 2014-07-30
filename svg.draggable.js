@@ -30,15 +30,15 @@
         var box = element.bbox()
         
         if (element instanceof SVG.G) {
-          box.x = element.x()
-          box.y = element.y()
+          box.x = parseInt(element.x())
+          box.y = parseInt(element.y())
           
         } else if (element instanceof SVG.Nested) {
           box = {
-            x:      element.x()
-          , y:      element.y()
-          , width:  element.width()
-          , height: element.height()
+            x:      parseInt(element.x())
+          , y:      parseInt(element.y())
+          , width:  parseInt(element.width())
+          , height: parseInt(element.height())
           }
         }
         
