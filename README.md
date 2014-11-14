@@ -30,7 +30,7 @@ rect.dragstart = function() {
 The `beforedrag` callback will pass the event in the first argument:
 
 ```javascript
-rect.beforestart = function(event) {
+rect.beforedrag = function(event) {
   ...do your thing...
 }
 ```
