@@ -65,7 +65,7 @@ rect.draggable(function(x, y) {
 
 
 ## Remove
-The draggable functionality van be removed with the `fixed()` method:
+The draggable functionality can be removed with the `fixed()` method:
 
 ```javascript
 rect.fixed()
