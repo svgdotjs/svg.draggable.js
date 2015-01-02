@@ -18,6 +18,9 @@ rect.draggable()
 
 Yes indeed, that's it! Now the `rect` is draggable.
 
+## Events
+The default events that are binded to the draggables are `mousedown`,`touchstart`, `mousemove`, `touchmove`, `mouseup`, `touchend`.
+
 ## Callbacks
 There are four different callbacks available, `beforedrag`, `dragstart`, `dragmove` and `dragend`. This is how you assign them:
 

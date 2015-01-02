@@ -1,5 +1,6 @@
 // svg.draggable.js 0.1.0 - Copyright (c) 2014 Wout Fierens - Licensed under the MIT license
 // extended by Florian Loch
+// extended by raks437 : added touch support
 ;(function() {
 
   SVG.extend(SVG.Element, {
@@ -57,7 +58,9 @@
         
         /* add while and end events to window */
         SVG.on(window, 'mousemove', drag)
+        SVG.on(window, 'touchmove', drag)
         SVG.on(window, 'mouseup',   end)
+        SVG.on(window, 'touchend',   end)
         
         /* invoke any callbacks */
         if (element.dragstart)
@@ -77,13 +80,31 @@
             , rotation  = element.startPosition.rotation
             , width     = element.startPosition.width
             , height    = element.startPosition.height
-            , delta     = {
-                x:    event.pageX - element.startEvent.pageX,
-                y:    event.pageY - element.startEvent.pageY,
-                zoom: element.startPosition.zoom
-              }
+            , delta     = {}
+
+          if(event.type == 'touchstart' || event.type == 'touchmove'){
+            delta = {
+                x: event.touches[0].pageX - element.startEvent.touches[0].pageX
+              , y: event.touches[0].pageY - element.startEvent.touches[0].pageY
+              ,  zoom: element.startPosition.zoom
+            }
+          }
+          else if(event.type == 'click'|| event.type == 'mousedown' || event.type == 'mousemove'){
+            delta = {
+              x: event.pageX - element.startEvent.pageX
+              , y: event.pageY - element.startEvent.pageY
+              , zoom: element.startPosition.zoom
+            }
+          }
+          else{
+            delta = {
+              x: event.pageX - element.startEvent.pageX
+              , y: event.pageY - element.startEvent.pageY
+              , zoom: element.startPosition.zoom
+            }
+          }
           
-          /* caculate new position [with rotation correction] */
+          /* calculate new position [with rotation correction] */
           x = element.startPosition.x + (delta.x * Math.cos(rotation) + delta.y * Math.sin(rotation))  / element.startPosition.zoom
           y = element.startPosition.y + (delta.y * Math.cos(rotation) + delta.x * Math.sin(-rotation)) / element.startPosition.zoom
           
@@ -127,10 +148,28 @@
         event = event || window.event
         
         /* calculate move position */
-        var delta = {
-          x:    event.pageX - element.startEvent.pageX
-        , y:    event.pageY - element.startEvent.pageY
-        , zoom: element.startPosition.zoom
+        var delta = {}
+
+        if(event.type == 'touchstart' || event.type == 'touchmove'){
+          delta = {
+              x: event.touches[0].pageX - element.startEvent.touches[0].pageX
+            , y: event.touches[0].pageY - element.startEvent.touches[0].pageY
+            ,  zoom: element.startPosition.zoom
+          }
+        }
+        else if(event.type == 'click'|| event.type == 'mousedown' || event.type == 'mousemove'){
+          delta = {
+            x: event.pageX - element.startEvent.pageX
+            , y: event.pageY - element.startEvent.pageY
+            , zoom: element.startPosition.zoom
+          }
+        }
+        else{
+          delta = {
+            x: event.pageX - element.startEvent.pageX
+            , y: event.pageY - element.startEvent.pageY
+            , zoom: element.startPosition.zoom
+          }
         }
         
         /* reset store */
@@ -139,7 +178,9 @@
 
         /* remove while and end events to window */
         SVG.off(window, 'mousemove', drag)
+        SVG.off(window, 'touchmove', drag)
         SVG.off(window, 'mouseup',   end)
+        SVG.off(window, 'touchend',   end)
 
         /* invoke any callbacks */
         if (element.dragend)
@@ -148,13 +189,17 @@
       
       /* bind mousedown event */
       element.on('mousedown', start)
+      element.on('touchstart', start)
       
       /* disable draggable */
       element.fixed = function() {
         element.off('mousedown', start)
+        element.off('touchstart', start)
         
         SVG.off(window, 'mousemove', drag)
+        SVG.off(window, 'touchmove', drag)
         SVG.off(window, 'mouseup',   end)
+        SVG.off(window, 'touchend',   end)
         
         start = drag = end = null
         
