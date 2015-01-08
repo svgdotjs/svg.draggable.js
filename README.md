@@ -18,6 +18,9 @@ rect.draggable()
 
 Yes indeed, that's it! Now the `rect` is draggable.
 
+## Events
+The default events that are binded to the draggables are `mousedown`,`touchstart`, `mousemove`, `touchmove`, `mouseup`, `touchend`.
+
 ## Callbacks
 There are four different callbacks available, `beforedrag`, `dragstart`, `dragmove` and `dragend`. This is how you assign them:
 
@@ -63,14 +66,12 @@ rect.draggable(function(x, y) {
 })
 ```
 
-
 ## Remove
 The draggable functionality van be removed with the `fixed()` method:
 
 ```javascript
 rect.fixed()
 ```
-
 
 ## Viewbox
 This plugin is viewBox aware but there is only one thing that you need to keep in mind. If you work with a viewBox on the parent element you need to set the width and height attributes to have the same aspect ratio. So let's say you are using `viewbox='0 0 150 100'` you have to make sure the aspect ratio of `width` and `height` is the same:
@@ -79,6 +80,8 @@ This plugin is viewBox aware but there is only one thing that you need to keep i
 var draw = SVG('paper').attr('viewBox', '0 0 150 100').size(600, 400)
 ```
 
-
 ## Dependencies
 This module requires svg.js v0.11.
+
+## Tested
+This is tested on `iPad4/iOS 8.1.1`, `iPad Air/iOS 7.0.4` & `Samsung Galaxy Note 10.1/Android 4.4.2`
