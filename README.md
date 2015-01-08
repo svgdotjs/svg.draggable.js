@@ -84,4 +84,4 @@ var draw = SVG('paper').attr('viewBox', '0 0 150 100').size(600, 400)
 This module requires svg.js v0.11.
 
 ## Tested
-This is tested on `iPad4/iOS 8.1.1` & `Samsung Galaxy Note 10.1/android 4.4.2`
+This is tested on `iPad4/iOS 8.1.1` & `Samsung Galaxy Note 10.1/Android 4.4.2`
