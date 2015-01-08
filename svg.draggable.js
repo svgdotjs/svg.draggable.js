@@ -1,6 +1,7 @@
 // svg.draggable.js 0.1.0 - Copyright (c) 2014 Wout Fierens - Licensed under the MIT license
 // extended by Florian Loch
 // extended by raks437 : added touch support
+// added a hack for iPad
 ;(function() {
 
   SVG.extend(SVG.Element, {
@@ -83,10 +84,19 @@
             , delta     = {}
 
           if(event.type == 'touchstart' || event.type == 'touchmove'){
-            delta = {
-                x: event.touches[0].pageX - element.startEvent.touches[0].pageX
-              , y: event.touches[0].pageY - element.startEvent.touches[0].pageY
-              ,  zoom: element.startPosition.zoom
+            if(window.navigator.userAgent.match(/iPad/i)){
+              delta = {
+                x: event.touches[0].pageX - element.startEvent.pageX,
+                y: event.touches[0].pageY - element.startEvent.pageY,
+                zoom: element.startPosition.zoom
+              }
+            }
+            else{
+              delta = {
+                x: event.touches[0].pageX - element.startEvent.touches[0].pageX,
+                y: event.touches[0].pageY - element.startEvent.touches[0].pageY,
+                zoom: element.startPosition.zoom
+              }
             }
           }
           else if(event.type == 'click'|| event.type == 'mousedown' || event.type == 'mousemove'){
@@ -151,10 +161,19 @@
         var delta = {}
 
         if(event.type == 'touchstart' || event.type == 'touchmove'){
-          delta = {
-              x: event.touches[0].pageX - element.startEvent.touches[0].pageX
-            , y: event.touches[0].pageY - element.startEvent.touches[0].pageY
-            ,  zoom: element.startPosition.zoom
+          if(window.navigator.userAgent.match(/iPad/i)){
+            delta = {
+              x: event.touches[0].pageX - element.startEvent.pageX,
+              y: event.touches[0].pageY - element.startEvent.pageY,
+              zoom: element.startPosition.zoom
+            }
+          }
+          else{
+            delta = {
+              x: event.touches[0].pageX - element.startEvent.touches[0].pageX,
+              y: event.touches[0].pageY - element.startEvent.touches[0].pageY,
+              zoom: element.startPosition.zoom
+            }
           }
         }
         else if(event.type == 'click'|| event.type == 'mousedown' || event.type == 'mousemove'){
