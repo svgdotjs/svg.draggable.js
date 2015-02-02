@@ -17,7 +17,8 @@
     <div id="drawing"></div>
   </body>
   
-  <script src="https://s3-eu-west-1.amazonaws.com/svgjs/svg.js"></script>
+  <!--<script src="https://s3-eu-west-1.amazonaws.com/svgjs/svg.js"></script>-->
+  <script src="../svg.js/dist/svg.js"></script>
   <script src="svg.draggable.js"></script>
   
   <script>
@@ -29,23 +30,25 @@
     draw.plain('just plain draggable').center(150, 210)
 
     /* grouped draggable */
-    draw.group().draggable().rect(100,100).center(400, 150)
-    draw.plain('grouped draggable').center(400, 210)
+    var g = draw.group().draggable();
+    g.rect(100,100).center(400, 150);
+    g.plain('grouped draggable').center(400, 210);
+    //draw.
 
     /* constraind with object */
     e = draw.rect(100,100).center(650, 150).draggable({ minX: 400, minY: 50, maxX: 800, maxY: 400 })
-    e.dragstart = function() {
+    e.on('draggable.dragstart', function() {
       s = e.clone().opacity(0.2)
 
       t = draw.rect(400, 350).move(400, 50).fill('none').stroke('#0fa')
-    }
-    e.dragmove = function() {
+    });
+    e.on('draggable.dragmove', function() {
       s.animate(200, '>').move(e.x(), e.y())
-    }
-    e.dragend = function() {
+    });
+    e.on('draggable.dragend', function() {
       t.remove()
       s.remove()
-    }
+    });
     draw.plain('constrained with object and ghost').center(650, 210)
 
     /* constraind with function */
