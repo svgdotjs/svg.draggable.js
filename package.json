@@ -1,0 +1,19 @@
+{
+  "name": "svg.draggable.js",
+  "version": "1.0.0",
+  "description": "A plugin for the [svgjs.com](http://svgjs.com) library to make elements draggable.",
+  "main": "svg.draggable.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timse/svg.draggable.js.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timse/svg.draggable.js/issues"
+  },
+  "homepage": "https://github.com/timse/svg.draggable.js"
+}
