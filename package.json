@@ -4,7 +4,7 @@
   "description": "An extension for svn.js which allows to drag elements with your mouse",
   "keywords": [
     "svg.js",
-    "resize",
+    "draggable",
     "mouse"
   ],
   "bugs": "https://github.com/wout/svg.draggable.js/issues",
@@ -28,7 +28,6 @@
     "node": ">= 0.8.0"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-watch": "~0.4.0",
