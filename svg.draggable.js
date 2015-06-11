@@ -9,7 +9,7 @@
     draggable: function(constraint) {
       var start, drag, end
         , element = this
-        , parent  = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc)
+        , parent  = this.parent(SVG.Nested) || this.parent(SVG.Doc)
       
       /* remove draggable if already present */
       if (typeof this.fixed === 'function')
