@@ -5,9 +5,19 @@ A plugin for the [svgjs.com](http://svgjs.com) library to make elements draggabl
 Svg.draggable.js is licensed under the terms of the MIT License.
 
 ## Usage
+
+Install the plugin:
+
+    bower install svg.draggable.js
+
 Include this plugin after including the svg.js library in your html document.
 
-To make an element draggable
+```html
+<script src="svg.js"></script>
+<script src="svg.draggable.js"></script>
+```
+
+To make an element draggable just call `draggable()` in the element
 
 ```javascript
 var draw = SVG('canvas').size(400, 400)
@@ -18,29 +28,29 @@ rect.draggable()
 
 Yes indeed, that's it! Now the `rect` is draggable.
 
-## Callbacks
-There are four different callbacks available, `beforedrag`, `dragstart`, `dragmove` and `dragend`. This is how you assign them:
+## Events
+The Plugin fires 4 different events
+
+- beforedrag
+- dragstart
+- dragmove
+- dragend
+
+You can bind/unbind listeners to this events:
 
 ```javascript
-rect.dragstart = function() {
-  ...do your thing...
-}
-```
+// bind
+rect.on('dragstart.namespace', function(event){
 
-The `beforedrag` callback will pass the event in the first argument:
+	// event.detail.event hold the mouseevent
+    // dragmove and dragend also serves the current delta values (event.detail.delta.x, y, zoom)  
+	
+    // do stuff
 
-```javascript
-rect.beforestart = function(event) {
-  ...do your thing...
-}
-```
+})
 
-The `dragstart`, `dragmove` and `dragend` callbacks will pass the delta values as an object in the first argument and the event as the second:
-
-```javascript
-rect.dragmove = function(delta, event) {
-  console.log(delta.x, delta.y)
-}
+// unbind
+rect.off('dragstart.namespace')
 ```
 
 ## Constraint
@@ -65,10 +75,10 @@ rect.draggable(function(x, y) {
 
 
 ## Remove
-The draggable functionality van be removed with the `fixed()` method:
+The draggable functionality can be removed calling draggable again with false as argument:
 
 ```javascript
-rect.fixed()
+rect.draggable(true)
 ```
 
 
@@ -81,4 +91,4 @@ var draw = SVG('paper').attr('viewBox', '0 0 150 100').size(600, 400)
 
 
 ## Dependencies
-This module requires svg.js v0.11.
+This module requires svg.js v2.0
