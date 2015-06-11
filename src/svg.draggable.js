@@ -5,8 +5,7 @@
     // Constraint might be a object (as described in readme.md) or a function in the form "function (x, y)" that gets called before every move.
     // The function can return a boolean or a object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
     draggable: function(value, constraint, undefined) {
-      var start, drag, end, element = this,
-        parent = this.parent(SVG.Nested) || this.parent(SVG.Doc),
+      var start, drag, end, parent, element = this,
         parameter = {}
 
       /* Check the parameters and reassign if needed */
@@ -30,6 +29,8 @@
       /* start dragging */
       start = function(event) {
 
+        parent = parent || this.parent(SVG.Nested) || this.parent(SVG.Doc)
+      
         /* invoke any callbacks */
         element.fire('beforedrag', {
           event: event
