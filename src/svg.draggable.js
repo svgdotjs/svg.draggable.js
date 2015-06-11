@@ -1,5 +1,3 @@
-// svg.draggable.js 0.1.0 - Copyright (c) 2014 Wout Fierens - Licensed under the MIT license
-// extended by Florian Loch, reworked from Ulrich-Matthias Schäfer
 ;(function() {
 
   SVG.extend(SVG.Element, {
@@ -8,7 +6,7 @@
     // The function can return a boolean or a object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
     draggable: function(value, constraint, undefined) {
       var start, drag, end, element = this,
-        parent = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc),
+        parent = this.parent(SVG.Nested) || this.parent(SVG.Doc),
         parameter = {}
 
       /* Check the parameters and reassign if needed */
@@ -21,15 +19,19 @@
       value = value === undefined ? true : value
       constraint = constraint || {}
 
+      if(element.remember('_draggable')){
+        element.remember('_draggable', constraint)
+        return;
+      }
+      
       /* Remember the constraints on the element because they would be overwritten by the next draggable-call otherwise */
-      element.remember('draggable.constraint', constraint)
+      element.remember('_draggable', constraint)
 
       /* start dragging */
       start = function(event) {
-        event = event || window.event
 
         /* invoke any callbacks */
-        element.fire('draggable.beforedrag', {
+        element.fire('beforedrag', {
           event: event
         })
 
@@ -41,12 +43,14 @@
           box.y = element.y()
 
         } else if (element instanceof SVG.Nested) {
-          box = {
+            box = element.rbox()
+          /*box = {
             x: element.x(),
             y: element.y(),
             width: element.width(),
             height: element.height()
-          }
+          }*/
+          
         }
 
         /* store event and start position */
@@ -58,26 +62,25 @@
             width: box.width,
             height: box.height,
             zoom: parent.viewbox().zoom,
-            rotation: element.transform('rotation') * Math.PI / 180
+            rotation: element.transform().rotation * Math.PI / 180
           }
         }
 
         /* add while and end events to window */
-        SVG.on(window, 'mousemove', drag)
-        SVG.on(window, 'mouseup', end)
+        SVG.on(window, 'mousemove.drag', drag)
+        SVG.on(window, 'mouseup.drag', end)
 
         /* invoke any callbacks */
-        element.fire('draggable.dragstart', parameter)
+        element.fire('dragstart', parameter)
 
         /* prevent selection dragging */
-        event.preventDefault ? event.preventDefault() : event.returnValue = false
+        event.preventDefault()
       }
 
       /* while dragging */
       drag = function(event) {
-        event = event || window.event
 
-        var x, y, constraint = element.remember('draggable.constraint'),
+        var x, y, constraint = element.remember('_draggable'),
           rotation = parameter.position.rotation,
           width = parameter.position.width,
           height = parameter.position.height,
@@ -86,6 +89,12 @@
             y: event.pageY - parameter.event.pageY,
             zoom: parameter.position.zoom
           }
+          
+          
+        element.fire('dragmove', {
+          delta: delta,
+          event: event
+        })
 
         /* caculate new position [with rotation correction] */
         x = parameter.position.x + (delta.x * Math.cos(rotation) + delta.y * Math.sin(rotation)) / parameter.position.zoom
@@ -133,17 +142,12 @@
           element.move(x, y)
         }
 
-        element.fire('draggable.dragmove', {
-          delta: delta,
-          event: event
-        })
 
 
       }
 
       /* when dragging ends */
       end = function(event) {
-        event = event || window.event
 
         /* calculate move position */
         var delta = {
@@ -153,27 +157,28 @@
         }
 
         /* remove while and end events to window */
-        SVG.off(window, 'mousemove', drag)
-        SVG.off(window, 'mouseup', end)
+        SVG.off(window, 'mousemove.drag', drag)
+        SVG.off(window, 'mouseup.drag', end)
 
         /* invoke any callbacks */
-        element.fire('draggable.dragend', {
+        element.fire('dragend', {
           delta: delta,
           event: event
         })
       }
 
       if (!value) {
-        element.off('mousedown', start)
-        SVG.off(window, 'mousemove', drag)
-        SVG.off(window, 'mouseup', end)
+        element.off('mousedown.drag')
+        SVG.off(window, 'mousemove.drag')
+        SVG.off(window, 'mouseup.drag')
 
         start = drag = end = null
+        element.forget('_draggable')
         return this
       }
 
       /* bind mousedown event */
-      element.on('mousedown', start)
+      element.on('mousedown.drag', start)
 
       return this
     }

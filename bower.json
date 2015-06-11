@@ -1,0 +1,29 @@
+{
+  "name": "svg.draggable.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/wout/svg.draggable.js",
+  "authors": [
+    "Wout Fierens",
+    "Ulrich-Matthias Schäfer"
+  ],
+  "description": "An extension for svn.js which allows to drag elements with your mouse",
+  "main": [
+    "./dist/svg.draggable.js"
+  ],
+  "keywords": [
+    "svg.js",
+    "draggable",
+    "mouse"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "svg.js":"2.x.x"
+  }
+}
