@@ -42,16 +42,22 @@ You can bind/unbind listeners to this events:
 // bind
 rect.on('dragstart.namespace', function(event){
 
-	// event.detail.event hold the mouseevent
-    // dragmove and dragend also serves the current delta values (event.detail.delta.x, y, zoom)  
-	
-    // do stuff
+	// event.detail.event hold the given data explained below
 
 })
 
 // unbind
 rect.off('dragstart.namespace')
 ```
+
+### event.detail
+
+`beforedrag`, `dragstart`, `dragmove` and `dragend` gives you the `event` and the `handler` which calculates the drag.
+Except for `beforedrag` the events also give you:
+
+ - `detail.m` transformation matrix to calculate screen coords to coords in the elements userspace
+ - `detail.p` pageX and pageY transformed into the elements userspace
+
 
 ## Constraint
 The drag functionality can be limited within a given box. You can pass the the constraint values as an object:
@@ -73,12 +79,13 @@ rect.draggable(function(x, y) {
 })
 ```
 
+**Note** that every constraint given is evaluated in the elements coordinate system and not in the screen-space
 
 ## Remove
 The draggable functionality can be removed calling draggable again with false as argument:
 
 ```javascript
-rect.draggable(true)
+rect.draggable(false)
 ```
 
 
@@ -86,9 +93,15 @@ rect.draggable(true)
 This plugin is viewBox aware but there is only one thing that you need to keep in mind. If you work with a viewBox on the parent element you need to set the width and height attributes to have the same aspect ratio. So let's say you are using `viewbox='0 0 150 100'` you have to make sure the aspect ratio of `width` and `height` is the same:
 
 ```javascript
-var draw = SVG('paper').attr('viewBox', '0 0 150 100').size(600, 400)
+var draw = SVG('paper').viewbox(0, 0, 150, 100).size(600, 400)
 ```
 
 
+## Restrictions
+
+- If your root-svg is transformed this plugin won't work properly (Viewbox is possible)
+- Furthermore it is not possible to move a rotated or flipped group properly. However transformed nested SVGs are possible and should be used instead.
+
+
 ## Dependencies
-This module requires svg.js v2.0
+This module requires svg.js >= v2.0.1

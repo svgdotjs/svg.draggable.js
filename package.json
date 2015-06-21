@@ -38,6 +38,6 @@
     "grunt-bumper": "^1.0.4"
   },
   "dependencies": {
-    "svg.js":"2.x.x"
+    "svg.js":"^2.0.1"
   }
 }
