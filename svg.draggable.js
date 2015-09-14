@@ -12,36 +12,36 @@
       var start, drag, end, startEvent, dragEvent, endEvent
         , element = this
         , parent  = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc)
-        , isTouch = 'ontouchstart' in window || (navigator.msMaxTouchPoints && !navigator.msPointerEnabled);
+        , isTouch = 'ontouchstart' in window || (navigator.msMaxTouchPoints && !navigator.msPointerEnabled)
 
       /* remove draggable if already present */
       if (typeof this.fixed === 'function')
-        this.fixed();
+        this.fixed()
 
       /* decide on event names based on touch support */
       if (isTouch) {
-        startEvent = 'touchstart';
-        dragEvent = 'touchmove';
-        endEvent = 'touchend';
+        startEvent = 'touchstart'
+        dragEvent = 'touchmove'
+        endEvent = 'touchend'
       } else {
-        startEvent = 'mousedown';
-        dragEvent = 'mousemove';
-        endEvent = 'mouseup';
+        startEvent = 'mousedown'
+        dragEvent = 'mousemove'
+        endEvent = 'mouseup'
       }
 
       /* ensure constraint object */
-      constraint = constraint || {};
+      constraint = constraint || {}
       
       /* start dragging */
       start = function(event) {
-        event = event || window.event;
+        event = event || window.event
         
         /* invoke any callbacks */
         if (element.beforedrag)
-          element.beforedrag(event);
+          element.beforedrag(event)
         
         /* get element bounding box */
-        var box = element.bbox();
+        var box = element.bbox()
         
         if (element instanceof SVG.G) {
           box.x = element.x();
@@ -57,7 +57,7 @@
         }
         
         /* store event */
-        element.startEvent = event;
+        element.startEvent = event
         
         /* store start position */
         element.startPosition = {
@@ -72,8 +72,8 @@
         };
         
         /* add while and end events to window */
-        SVG.on(window, dragEvent, drag);
-        SVG.on(window, endEvent,   end);
+        SVG.on(window, dragEvent, drag)
+        SVG.on(window, endEvent,   end)
         
         /* invoke any callbacks */
         if (element.dragstart)
@@ -108,7 +108,7 @@
           
           /* move the element to its new position, if possible by constraint */
           if (typeof constraint === 'function') {
-            var coord = constraint(x, y);
+            var coord = constraint(x, y)
 
             if (typeof coord === 'object') {
               if (typeof coord.x != 'boolean' || coord.x)
@@ -154,12 +154,12 @@
             }
         
         /* reset store */
-        element.startEvent    = null;
-        element.startPosition = null;
+        element.startEvent    = null
+        element.startPosition = null
 
         /* remove while and end events to window */
-        SVG.off(window, dragEvent, drag);
-        SVG.off(window, endEvent,   end);
+        SVG.off(window, dragEvent, drag)
+        SVG.off(window, endEvent,   end)
 
         /* invoke any callbacks */
         if (element.dragend)
@@ -167,16 +167,16 @@
       }
       
       /* bind mousedown event */
-      element.on(startEvent, start);
+      element.on(startEvent, start)
       
       /* disable draggable */
       element.fixed = function() {
-        element.off('mousedown', start);
+        element.off('mousedown', start)
         
-        SVG.off(window, dragEvent, drag);
-        SVG.off(window, endEvent,   end);
-        
-        start = drag = end = null;
+        SVG.off(window, dragEvent, drag)
+        SVG.off(window, endEvent,   end)
+
+        start = drag = end = null
         
         return element
       }
@@ -186,4 +186,4 @@
     
   })
 
-}).call(this);
+}).call(this)
