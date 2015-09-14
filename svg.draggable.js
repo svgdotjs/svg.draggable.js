@@ -69,7 +69,7 @@
         , rotation: element.transform('rotation') * Math.PI / 180
         , pageX:    event.changedTouches ? event.changedTouches[0].pageX : event.pageX
         , pageY:    event.changedTouches ? event.changedTouches[0].pageY : event.pageY
-        };
+        }
         
         /* add while and end events to window */
         SVG.on(window, dragEvent, drag)
@@ -100,7 +100,7 @@
                 x:    position.pageX - element.startPosition.pageX,
                 y:    position.pageY - element.startPosition.pageY,
                 zoom: element.startPosition.zoom
-              };
+              }
           
           /* caculate new position [with rotation correction] */
           x = element.startPosition.x + (delta.x * Math.cos(rotation) + delta.y * Math.sin(rotation))  / element.startPosition.zoom
