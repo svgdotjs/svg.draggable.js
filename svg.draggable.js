@@ -44,8 +44,8 @@
         var box = element.bbox()
         
         if (element instanceof SVG.G) {
-          box.x = element.x();
-          box.y = element.y();
+          box.x = element.x()
+          box.y = element.y()
           
         } else if (element instanceof SVG.Nested) {
           box = {
