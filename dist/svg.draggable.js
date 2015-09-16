@@ -1,4 +1,4 @@
-/*! svg.draggable.js - v2.0.0 - 2015-06-21
+/*! svg.draggable.js - v2.0.1 - 2015-09-16
 * https://github.com/wout/svg.draggable.js
 * Copyright (c) 2015 Wout Fierens; Licensed MIT */
 ;(function() {
@@ -16,10 +16,21 @@
     this.constraint = constraint
     this.value = val
     this.el.on('mousedown.drag', function(e){ _this.start(e) })
+    this.el.on('touchstart.drag', function(e){ _this.start(e) })
   }
 
   // transforms one point from screen to user coords
-  DragHandler.prototype.transformPoint = function(x, y){
+  DragHandler.prototype.transformPoint = function(event){
+      event = event || window.event
+      var x, y;
+      if(event.touches){
+        x = event.touches[0].pageX
+        y = event.touches[0].pageY
+      }
+      else{
+        x = event.pageX
+        y = event.pageY
+      }
 
       this.p.x = x
       this.p.y = y
@@ -47,8 +58,10 @@
   DragHandler.prototype.start = function(e){
 
     // check for left button
-    if((e.which || e.buttons) != 1){
-        return
+    if(event.type == 'click'|| event.type == 'mousedown' || event.type == 'mousemove'){
+      if((e.which || e.buttons) != 1){
+          return
+      }
     }
   
     var _this = this
@@ -68,13 +81,15 @@
     
     this.startPoints = {
       // We take absolute coordinates since we are just using a delta here
-      mouse: this.transformPoint(e.pageX, e.pageY),
+      point: this.transformPoint(e),
       box:   box
     }
     
     // add drag and end events to window
     SVG.on(window, 'mousemove.drag', function(e){ _this.drag(e) })
+    SVG.on(window, 'touchmove.drag', function(e){ _this.drag(e) })
     SVG.on(window, 'mouseup.drag', function(e){ _this.end(e) })
+    SVG.on(window, 'touchend.drag', function(e){ _this.end(e) })
 
     // fire dragstart event
     this.el.fire('dragstart', {event: e, p: this.p, m: this.m, handler: this})
@@ -87,9 +102,9 @@
   DragHandler.prototype.drag = function(e){
 
     var box = this.getBBox()
-      , p   = this.transformPoint(e.pageX, e.pageY)
-      , x   = this.startPoints.box.x + p.x - this.startPoints.mouse.x
-      , y   = this.startPoints.box.y + p.y - this.startPoints.mouse.y
+      , p   = this.transformPoint(e)
+      , x   = this.startPoints.box.x + p.x - this.startPoints.point.x
+      , y   = this.startPoints.box.y + p.y - this.startPoints.point.y
       , c   = this.constraint
 
     this.el.fire('dragmove', { event: e, p: this.p, m: this.m, handler: this })
@@ -146,7 +161,9 @@
 
     // unbind events
     SVG.off(window, 'mousemove.drag')
+    SVG.off(window, 'touchmove.drag')
     SVG.off(window, 'mouseup.drag')
+    SVG.off(window, 'touchend.drag')
 
   }
 
@@ -168,7 +185,10 @@
       value = typeof value === 'undefined' ? true : value
 
       if(value) dragHandler.init(constraint || {}, value)
-      else this.off('mousedown.drag')
+      else {
+        this.off('mousedown.drag')
+        this.off('touchstart.drag')
+      }
 
       return this
     }
