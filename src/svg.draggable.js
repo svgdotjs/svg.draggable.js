@@ -20,7 +20,7 @@
   DragHandler.prototype.transformPoint = function(event){
       event = event || window.event
       var x, y;
-      if(event.touches){
+      if(event.touches && event.touches.length){
         x = event.touches[0].pageX
         y = event.touches[0].pageY
       }
