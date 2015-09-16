@@ -1,4 +1,4 @@
-/*! svg.draggable.js - v2.0.1 - 2015-09-16
+/*! svg.draggable.js - v2.1.0 - 2015-09-16
 * https://github.com/wout/svg.draggable.js
 * Copyright (c) 2015 Wout Fierens; Licensed MIT */
 ;(function() {
