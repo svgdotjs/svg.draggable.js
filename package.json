@@ -1,6 +1,6 @@
 {
   "name": "svg.draggable.js",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "main": "dist/svg.draggable.js",
   "keywords": [
