@@ -1,4 +1,4 @@
-/*! svg.draggable.js - v2.1.1 - 2015-09-18
+/*! svg.draggable.js - v2.1.2 - 2015-09-18
 * https://github.com/wout/svg.draggable.js
 * Copyright (c) 2015 Wout Fierens; Licensed MIT */
 ;(function() {
@@ -20,10 +20,10 @@
   }
 
   // transforms one point from screen to user coords
-  DragHandler.prototype.transformPoint = function(event){
+  DragHandler.prototype.transformPoint = function(event, offset){
       event = event || window.event
       var touches = event.changedTouches && event.changedTouches[0] || event
-      this.p.x = touches.pageX
+      this.p.x = touches.pageX + (offset || 0)
       this.p.y = touches.pageY
       return this.p.matrixTransform(this.m)
   }
@@ -68,9 +68,25 @@
 
     var box = this.getBBox()
     
+    var anchorOffset;
+    
+    // fix text-anchor in text-element (#37)
+    if(this.el instanceof SVG.Text){
+      anchorOffset = this.el.node.getComputedTextLength();
+        
+      switch(this.el.attr('text-anchor')){
+        case 'middle':
+          anchorOffset /= 2;
+          break
+        case 'start':
+          anchorOffset = 0;
+          break;
+      }
+    }
+    
     this.startPoints = {
       // We take absolute coordinates since we are just using a delta here
-      point: this.transformPoint(e),
+      point: this.transformPoint(e, anchorOffset),
       box:   box
     }
     
