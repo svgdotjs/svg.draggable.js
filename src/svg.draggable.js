@@ -44,7 +44,7 @@
   DragHandler.prototype.start = function(e){
 
     // check for left button
-    if(event.type == 'click'|| event.type == 'mousedown' || event.type == 'mousemove'){
+    if(e.type == 'click'|| e.type == 'mousedown' || e.type == 'mousemove'){
       if((e.which || e.buttons) != 1){
           return
       }

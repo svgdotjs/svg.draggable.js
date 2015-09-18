@@ -1,4 +1,4 @@
-/*! svg.draggable.js - v2.1.0 - 2015-09-19
+/*! svg.draggable.js - v2.1.1 - 2015-09-18
 * https://github.com/wout/svg.draggable.js
 * Copyright (c) 2015 Wout Fierens; Licensed MIT */
 ;(function() {
@@ -47,7 +47,7 @@
   DragHandler.prototype.start = function(e){
 
     // check for left button
-    if(event.type == 'click'|| event.type == 'mousedown' || event.type == 'mousemove'){
+    if(e.type == 'click'|| e.type == 'mousedown' || e.type == 'mousemove'){
       if((e.which || e.buttons) != 1){
           return
       }
