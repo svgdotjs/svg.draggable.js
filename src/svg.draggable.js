@@ -19,21 +19,10 @@
   // transforms one point from screen to user coords
   DragHandler.prototype.transformPoint = function(event){
       event = event || window.event
-      var x, y;
-      if(event.touches && event.touches.length){
-        x = event.touches[0].pageX
-        y = event.touches[0].pageY
-      }
-      else{
-        x = event.pageX
-        y = event.pageY
-      }
-
-      this.p.x = x
-      this.p.y = y
-
-      return this.p.matrixTransform(this.m);
-
+      var touches = event.changedTouches && event.changedTouches[0] || event
+      this.p.x = touches.pageX
+      this.p.y = touches.pageY
+      return this.p.matrixTransform(this.m)
   }
   
   // gets elements bounding box with specian handling of groups, nested and use
