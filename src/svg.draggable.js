@@ -98,6 +98,9 @@
 
     // prevent browser drag behavior
     e.preventDefault()
+
+    // prevent propagation to a parent that might also have dragging enabled
+    e.stopPropagation();
   }
 
   // while dragging
