@@ -25,7 +25,7 @@
       return this.p.matrixTransform(this.m)
   }
   
-  // gets elements bounding box with specian handling of groups, nested and use
+  // gets elements bounding box with special handling of groups, nested and use
   DragHandler.prototype.getBBox = function(){
 
     var box = this.el.bbox()
@@ -171,8 +171,8 @@
 
   SVG.extend(SVG.Element, {
     // Make element draggable
-    // Constraint might be a object (as described in readme.md) or a function in the form "function (x, y)" that gets called before every move.
-    // The function can return a boolean or a object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
+    // Constraint might be an object (as described in readme.md) or a function in the form "function (x, y)" that gets called before every move.
+    // The function can return a boolean or an object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
     draggable: function(value, constraint) {
 
       // Check the parameters and reassign if needed
