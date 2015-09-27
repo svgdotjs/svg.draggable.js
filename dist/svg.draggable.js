@@ -1,4 +1,4 @@
-/*! svg.draggable.js - v2.1.3 - 2015-09-18
+/*! svg.draggable.js - v2.1.3 - 2015-09-27
 * https://github.com/wout/svg.draggable.js
 * Copyright (c) 2015 Wout Fierens; Licensed MIT */
 ;(function() {
@@ -28,7 +28,7 @@
       return this.p.matrixTransform(this.m)
   }
   
-  // gets elements bounding box with specian handling of groups, nested and use
+  // gets elements bounding box with special handling of groups, nested and use
   DragHandler.prototype.getBBox = function(){
 
     var box = this.el.bbox()
@@ -101,6 +101,9 @@
 
     // prevent browser drag behavior
     e.preventDefault()
+
+    // prevent propagation to a parent that might also have dragging enabled
+    e.stopPropagation();
   }
 
   // while dragging
@@ -174,8 +177,8 @@
 
   SVG.extend(SVG.Element, {
     // Make element draggable
-    // Constraint might be a object (as described in readme.md) or a function in the form "function (x, y)" that gets called before every move.
-    // The function can return a boolean or a object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
+    // Constraint might be an object (as described in readme.md) or a function in the form "function (x, y)" that gets called before every move.
+    // The function can return a boolean or an object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
     draggable: function(value, constraint) {
 
       // Check the parameters and reassign if needed
