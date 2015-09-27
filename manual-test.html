@@ -53,6 +53,16 @@
       draw.rect(100,100).center(900, 150).draggable(function(x, y) { return { x: x < 1000, y: y < 300 } })
       draw.plain('constraint with function').center(900, 210)
 
+      /* group with multiple levels of draggables (dragging a part doesn't drag the group) */
+      var g2 = draw.group().draggable()
+      for( var i=0; i<4; i++ ) {
+        var cx = (i&1) ? -25:25
+        var cy = (i&2) ? -25:25
+        g2.rect(50,50).center(cx,cy).draggable()
+      }
+      g2.plain('grouped with multiple levels of draggable').center(0, 70);
+      g2.move(1150,150)
+
     </script>
   </body>
 </html>
