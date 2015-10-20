@@ -9,44 +9,41 @@
     // Constraint might be a object (as described in readme.md) or a function in the form "function (x, y)" that gets called before every move.
     // The function can return a boolean or a object of the form {x, y}, to which the element will be moved. "False" skips moving, true moves to raw x, y.
     draggable: function(constraint) {
-      var start, drag, end, startEvent, dragEvent, endEvent
-        , element = this
-        , parent  = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc)
-        , isTouch = 'ontouchstart' in window || (navigator.msMaxTouchPoints && !navigator.msPointerEnabled)
+      var start, drag, end, startEvent, dragEvent, endEvent, touchStartEvent, touchDragEvent, touchEndEvent
+          , element = this
+          , parent  = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc);
 
       /* remove draggable if already present */
       if (typeof this.fixed === 'function')
         this.fixed()
 
       /* decide on event names based on touch support */
-      if (isTouch) {
-        startEvent = 'touchstart'
-        dragEvent = 'touchmove'
-        endEvent = 'touchend'
-      } else {
-        startEvent = 'mousedown'
-        dragEvent = 'mousemove'
-        endEvent = 'mouseup'
-      }
+      /*No longer doing touch OR mouse as some devices can do both.*/
+      touchStartEvent = 'touchstart'
+      touchDragEvent = 'touchmove'
+      touchEndEvent = 'touchend'
+      startEvent = 'mousedown'
+      dragEvent = 'mousemove'
+      endEvent = 'mouseup'
 
       /* ensure constraint object */
       constraint = constraint || {}
-      
+
       /* start dragging */
       start = function(event) {
         event = event || window.event
-        
+
         /* invoke any callbacks */
         if (element.beforedrag)
           element.beforedrag(event)
-        
+
         /* get element bounding box */
         var box = element.bbox()
-        
+
         if (element instanceof SVG.G) {
           box.x = element.x()
           box.y = element.y()
-          
+
         } else if (element instanceof SVG.Nested) {
           box = {
             x:      element.x()
@@ -55,10 +52,11 @@
           , height: element.height()
           }
         }
-        
+
         /* store event */
         element.startEvent = event
-        
+        element.touchStartEvent = event
+
         /* store start position */
         element.startPosition = {
           x:        box.x
@@ -70,19 +68,21 @@
         , pageX:    event.changedTouches ? event.changedTouches[0].pageX : event.pageX
         , pageY:    event.changedTouches ? event.changedTouches[0].pageY : event.pageY
         }
-        
+
         /* add while and end events to window */
         SVG.on(window, dragEvent, drag)
         SVG.on(window, endEvent,   end)
-        
+        SVG.on(window, touchDragEvent, drag)
+        SVG.on(window, touchEndEvent,   end)
+
         /* invoke any callbacks */
         if (element.dragstart)
           element.dragstart({ x: 0, y: 0, zoom: element.startPosition.zoom }, event)
-        
+
         /* prevent selection dragging */
         event.preventDefault ? event.preventDefault() : event.returnValue = false
       }
-      
+
       /* while dragging */
       drag = function(event) {
         event = event || window.event
@@ -101,11 +101,11 @@
                 y:    position.pageY - element.startPosition.pageY,
                 zoom: element.startPosition.zoom
               }
-          
+
           /* caculate new position [with rotation correction] */
           x = element.startPosition.x + (delta.x * Math.cos(rotation) + delta.y * Math.sin(rotation))  / element.startPosition.zoom
           y = element.startPosition.y + (delta.y * Math.cos(rotation) + delta.x * Math.sin(-rotation)) / element.startPosition.zoom
-          
+
           /* move the element to its new position, if possible by constraint */
           if (typeof constraint === 'function') {
             var coord = constraint(x, y)
@@ -126,13 +126,13 @@
               x = constraint.minX
             else if (constraint.maxX != null && x > constraint.maxX - width)
               x = constraint.maxX - width
-            
+
             if (constraint.minY != null && y < constraint.minY)
               y = constraint.minY
             else if (constraint.maxY != null && y > constraint.maxY - height)
               y = constraint.maxY - height
 
-            element.move(x, y)          
+            element.move(x, y)
           }
 
           /* invoke any callbacks */
@@ -140,7 +140,7 @@
             element.dragmove(delta, event)
         }
       }
-      
+
       /* when dragging ends */
       end = function(event) {
         event = event || window.event
@@ -152,38 +152,45 @@
               y:    position.pageY - element.startPosition.pageY,
               zoom: element.startPosition.zoom
             }
-        
+
         /* reset store */
-        element.startEvent    = null
-        element.startPosition = null
+        element.startEvent      = null
+        element.touchStartEvent = null
+        element.startPosition   = null
 
         /* remove while and end events to window */
         SVG.off(window, dragEvent, drag)
         SVG.off(window, endEvent,   end)
+        SVG.off(window, touchDragEvent, drag)
+        SVG.off(window, touchEndEvent,   end)
 
         /* invoke any callbacks */
         if (element.dragend)
           element.dragend(delta, event)
       }
-      
-      /* bind mousedown event */
+
+      /* bind start events */
       element.on(startEvent, start)
-      
+      element.on(touchStartEvent, start)
+
       /* disable draggable */
       element.fixed = function() {
-        element.off('mousedown', start)
-        
+        element.off(startEvent, start)
+        element.off(touchStartEvent, start)
+
         SVG.off(window, dragEvent, drag)
         SVG.off(window, endEvent,   end)
+        SVG.off(window, touchDragEvent, drag)
+        SVG.off(window, touchEndEvent,   end)
 
         start = drag = end = null
-        
+
         return element
       }
-      
+
       return this
     }
-    
+
   })
 
 }).call(this);
