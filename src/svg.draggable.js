@@ -94,7 +94,7 @@
     SVG.on(window, 'touchend.drag', function(e){ _this.end(e) })
 
     // fire dragstart event
-    this.el.fire('dragstart', {event: e, p: this.p, m: this.m, handler: this})
+    this.el.fire('dragstart', {event: e, p: this.startPoints.point, m: this.m, handler: this})
 
     // prevent browser drag behavior
     e.preventDefault()
@@ -112,7 +112,7 @@
       , y   = this.startPoints.box.y + p.y - this.startPoints.point.y
       , c   = this.constraint
 
-    this.el.fire('dragmove', { event: e, p: this.p, m: this.m, handler: this })
+    this.el.fire('dragmove', { event: e, p: p, m: this.m, handler: this })
 
     // move the element to its new position, if possible by constraint
     if (typeof c == 'function') {
@@ -154,15 +154,18 @@
 
       this.el.move(x, y)
     }
+    
+    // so we can use it in the end-method, too
+    return p
   }
 
   DragHandler.prototype.end = function(e){
 
     // final drag
-    this.drag(e);
+    var p = this.drag(e);
 
     // fire dragend event
-    this.el.fire('dragend', { event: e, p: this.p, m: this.m, handler: this })
+    this.el.fire('dragend', { event: e, p: p, m: this.m, handler: this })
 
     // unbind events
     SVG.off(window, 'mousemove.drag')
