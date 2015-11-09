@@ -50,6 +50,12 @@
       }
     }
   
+    // check if multitouch gesture
+    if (e.type === 'touchstart' && e.touches.length > 1) {
+      e.stopPropagation()
+      return
+    }
+
     var _this = this
 
     // fire beforedrag event
@@ -105,6 +111,11 @@
 
   // while dragging
   DragHandler.prototype.drag = function(e){
+    // check if multitouch
+    if (e.type === 'touchmove' && e.touches.length > 1) {
+      e.stopPropagation()
+      return
+    }
 
     var box = this.getBBox()
       , p   = this.transformPoint(e)
