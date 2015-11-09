@@ -114,11 +114,6 @@
       , y   = this.startPoints.box.y + p.y - this.startPoints.point.y
       , c   = this.constraint
 
-    // adds an event when the element is really dragged, includes the delta of the movement.
-    if(this.startPoints.point.x !== p.x || this.startPoints.point.y !== p.y) {
-      this.el.fire('dragged', { event: e, dx: x, dy: y, handler: this })
-    }
-
     this.el.fire('dragmove', { event: e, p: this.p, m: this.m, handler: this })
 
     // move the element to its new position, if possible by constraint
