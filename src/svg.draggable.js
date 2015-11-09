@@ -89,10 +89,8 @@
     
     // add drag and end events to window
     SVG.on(window, 'mousemove.drag', function(e){ _this.drag(e) })
-    SVG.off(window, 'touchmove.drag')
     SVG.on(window, 'touchmove.drag', function(e){ _this.drag(e) })
     SVG.on(window, 'mouseup.drag', function(e){ _this.end(e) })
-    SVG.off(window, 'touchend.drag')
     SVG.on(window, 'touchend.drag', function(e){ _this.end(e) })
 
     // fire dragstart event
