@@ -1,6 +1,6 @@
-/*! svg.draggable.js - v2.1.3 - 2015-11-06
+/*! svg.draggable.js - v2.2.0 - 2016-05-21
 * https://github.com/wout/svg.draggable.js
-* Copyright (c) 2015 Wout Fierens; Licensed MIT */
+* Copyright (c) 2016 Wout Fierens; Licensed MIT */
 ;(function() {
 
   // creates handler, saves it
@@ -115,7 +115,19 @@
       , y   = this.startPoints.box.y + p.y - this.startPoints.point.y
       , c   = this.constraint
 
-    this.el.fire('dragmove', { event: e, p: p, m: this.m, handler: this })
+    var event = new CustomEvent('dragmove', {
+        detail: {
+            event: e
+          , p: p
+          , m: this.m
+          , handler: this
+        }
+      , cancelable: true
+    })
+      
+    this.el.fire(event)
+    
+    if(event.defaultPrevented) return p
 
     // move the element to its new position, if possible by constraint
     if (typeof c == 'function') {
