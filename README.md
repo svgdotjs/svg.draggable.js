@@ -33,7 +33,7 @@ The Plugin fires 4 different events
 
 - beforedrag
 - dragstart
-- dragmove
+- dragmove (you can call preventDefault on this one - see below)
 - dragend
 
 You can bind/unbind listeners to this events:
@@ -58,7 +58,18 @@ Except for `beforedrag` the events also give you:
  - `detail.m` transformation matrix to calculate screen coords to coords in the elements userspace
  - `detail.p` pageX and pageY transformed into the elements userspace
 
+### event.preventDefault()
 
+You can prevent the default drag action with a call to `event.preventDefault()` in the callback function.
+The shape won't be dragged in this case. That is helpfull if you want to implement your own drag handling.
+
+```javascript
+rect.draggable().on('dragmove', function(e){
+  e.preventDefault()
+  this.move(e.detail.p.x, e.detail.p.y)
+})
+```
+ 
 ## Constraint
 The drag functionality can be limited within a given box. You can pass the the constraint values as an object:
 
@@ -86,14 +97,6 @@ The draggable functionality can be removed calling draggable again with false as
 
 ```javascript
 rect.draggable(false)
-```
-
-
-## Viewbox
-This plugin is viewBox aware but there is only one thing that you need to keep in mind. If you work with a viewBox on the parent element you need to set the width and height attributes to have the same aspect ratio. So let's say you are using `viewbox='0 0 150 100'` you have to make sure the aspect ratio of `width` and `height` is the same:
-
-```javascript
-var draw = SVG('paper').viewbox(0, 0, 150, 100).size(600, 400)
 ```
 
 

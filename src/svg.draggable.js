@@ -112,7 +112,19 @@
       , y   = this.startPoints.box.y + p.y - this.startPoints.point.y
       , c   = this.constraint
 
-    this.el.fire('dragmove', { event: e, p: p, m: this.m, handler: this })
+    var event = new CustomEvent('dragmove', {
+        detail: {
+            event: e
+          , p: p
+          , m: this.m
+          , handler: this
+        }
+      , cancelable: true
+    })
+      
+    this.el.fire(event)
+    
+    if(event.defaultPrevented) return p
 
     // move the element to its new position, if possible by constraint
     if (typeof c == 'function') {
