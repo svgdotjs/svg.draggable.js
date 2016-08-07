@@ -84,7 +84,8 @@
     this.startPoints = {
       // We take absolute coordinates since we are just using a delta here
       point: this.transformPoint(e, anchorOffset),
-      box:   box
+      box:   box,
+      transform: this.el.transform()
     }
     
     // add drag and end events to window
@@ -111,7 +112,9 @@
       , x   = this.startPoints.box.x + p.x - this.startPoints.point.x
       , y   = this.startPoints.box.y + p.y - this.startPoints.point.y
       , c   = this.constraint
-
+      , gx  = p.x - this.startPoints.point.x
+      , gy  = p.y - this.startPoints.point.y
+      
     var event = new CustomEvent('dragmove', {
         detail: {
             event: e
@@ -163,8 +166,11 @@
         y = c.minY
       else if (c.maxY != null && y > c.maxY - box.height)
         y = c.maxY - box.height
-
-      this.el.move(x, y)
+        
+      if(this.el instanceof SVG.G)
+        this.el.matrix(this.startPoints.transform).transform({x:gx, y: gy}, true)
+      else
+        this.el.move(x, y)
     }
     
     // so we can use it in the end-method, too
