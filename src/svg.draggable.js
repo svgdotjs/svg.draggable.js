@@ -154,14 +154,19 @@
     } else if (typeof c == 'object') {
 
       // keep element within constrained box
-      if (c.minX != null && x < c.minX)
+      if (c.minX != null && x < c.minX) {
         x = c.minX
-      else if (c.maxX != null && x > c.maxX - box.width){
+        gx = x - this.startPoints.box.x
+      } else if (c.maxX != null && x > c.maxX - box.width) {
         x = c.maxX - box.width
-      }if (c.minY != null && y < c.minY)
+        gx = x - this.startPoints.box.x
+      } if (c.minY != null && y < c.minY) {
         y = c.minY
-      else if (c.maxY != null && y > c.maxY - box.height)
+        gy = y - this.startPoints.box.y
+      } else if (c.maxY != null && y > c.maxY - box.height) {
         y = c.maxY - box.height
+        gy = y - this.startPoints.box.y
+      }
 
       if(this.el instanceof SVG.G)
         this.el.matrix(this.startPoints.transform).transform({x:gx, y: gy}, true)
