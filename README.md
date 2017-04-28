@@ -31,9 +31,9 @@ Yes indeed, that's it! Now the `rect` is draggable.
 ## Events
 The Plugin fires 4 different events
 
-- beforedrag
+- beforedrag (cancelable)
 - dragstart
-- dragmove (you can call preventDefault on this one - see below)
+- dragmove (cancelable)
 - dragend
 
 You can bind/unbind listeners to this events:
@@ -58,15 +58,22 @@ Except for `beforedrag` the events also give you:
  - `detail.m` transformation matrix to calculate screen coords to coords in the elements userspace
  - `detail.p` pageX and pageY transformed into the elements userspace
 
-### event.preventDefault()
+### cancelable events
 
-You can prevent the default drag action with a call to `event.preventDefault()` in the callback function.
+You can prevent the default action of `beforedrag` and `dragmove` with a call to `event.preventDefault()` in the callback function.
 The shape won't be dragged in this case. That is helpfull if you want to implement your own drag handling.
 
 ```javascript
+rect.draggable().on('beforedrag', function(e){
+  e.preventDefault()
+  // no other events are bound
+  // drag was completely prevented
+})
+
 rect.draggable().on('dragmove', function(e){
   e.preventDefault()
   this.move(e.detail.p.x, e.detail.p.y)
+  // events are still bound e.g. dragend will fire anyway
 })
 ```
  
