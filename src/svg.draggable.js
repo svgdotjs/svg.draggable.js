@@ -166,6 +166,9 @@
       } else if (c.maxY != null && y > c.maxY - box.height) {
         y = c.maxY - box.height
         gy = y - this.startPoints.box.y
+      } if (c.snapToGrid != null) {
+        x = x - (x % c.snapToGrid)
+        y = y - (y % c.snapToGrid)
       }
 
       if(this.el instanceof SVG.G)
