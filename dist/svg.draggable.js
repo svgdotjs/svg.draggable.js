@@ -1,4 +1,4 @@
-/*! svg.draggable.js - v2.2.1 - 2017-04-18
+/*! svg.draggable.js - v2.2.1 - 2017-11-05
 * https://github.com/wout/svg.draggable.js
 * Copyright (c) 2017 Wout Fierens; Licensed MIT */
 ;(function() {
@@ -159,16 +159,21 @@
       // keep element within constrained box
       if (c.minX != null && x < c.minX) {
         x = c.minX
-        gx = x - this.startPoints.box.x // NEW
+        gx = x - this.startPoints.box.x
       } else if (c.maxX != null && x > c.maxX - box.width) {
         x = c.maxX - box.width
-        gx = x - this.startPoints.box.x // NEW
+        gx = x - this.startPoints.box.x
       } if (c.minY != null && y < c.minY) {
         y = c.minY
-        gy = y - this.startPoints.box.y // NEW
+        gy = y - this.startPoints.box.y
       } else if (c.maxY != null && y > c.maxY - box.height) {
         y = c.maxY - box.height
-        gy = y - this.startPoints.box.y // NEW
+        gy = y - this.startPoints.box.y
+      }
+
+      if (c.snapToGrid != null) {
+        x = x - (x % c.snapToGrid)
+        y = y - (y % c.snapToGrid)
       }
 
       if(this.el instanceof SVG.G)

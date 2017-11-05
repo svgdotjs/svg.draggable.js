@@ -168,6 +168,11 @@
         gy = y - this.startPoints.box.y
       }
 
+      if (c.snapToGrid != null) {
+        x = x - (x % c.snapToGrid)
+        y = y - (y % c.snapToGrid)
+      }
+
       if(this.el instanceof SVG.G)
         this.el.matrix(this.startPoints.transform).transform({x:gx, y: gy}, true)
       else

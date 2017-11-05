@@ -86,6 +86,7 @@ rect.draggable({
 , minY: 15
 , maxX: 200
 , maxY: 100
+, snapToGrid: 20 
 })
 ```
 
