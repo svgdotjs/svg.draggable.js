@@ -1,6 +1,6 @@
-/*! svg.draggable.js - v2.2.1 - 2017-11-05
+/*! svg.draggable.js - v2.2.1 - 2018-04-17
 * https://github.com/wout/svg.draggable.js
-* Copyright (c) 2017 Wout Fierens; Licensed MIT */
+* Copyright (c) 2018 Wout Fierens; Licensed MIT */
 ;(function() {
 
   // creates handler, saves it
@@ -33,7 +33,7 @@
 
     var box = this.el.bbox()
 
-    if(this.el instanceof SVG.Nested) box = this.el.rbox()
+    if(this.el instanceof SVG.Nested) box = this.el.node.getBBox()
 
     if (this.el instanceof SVG.G || this.el instanceof SVG.Use || this.el instanceof SVG.Nested) {
       box.x = this.el.x()

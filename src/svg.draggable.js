@@ -30,7 +30,7 @@
 
     var box = this.el.bbox()
 
-    if(this.el instanceof SVG.Nested) box = this.el.rbox()
+    if(this.el instanceof SVG.Nested) box = this.el.node.getBBox()
 
     if (this.el instanceof SVG.G || this.el instanceof SVG.Use || this.el instanceof SVG.Nested) {
       box.x = this.el.x()
