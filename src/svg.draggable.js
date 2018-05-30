@@ -171,6 +171,8 @@
       if (c.snapToGrid != null) {
         x = x - (x % c.snapToGrid)
         y = y - (y % c.snapToGrid)
+        gx = gx - (gx % c.snapToGrid)
+        gy = gy - (gy % c.snapToGrid)
       }
 
       if(this.el instanceof SVG.G)
