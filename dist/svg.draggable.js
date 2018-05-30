@@ -1,6 +1,6 @@
-/*! svg.draggable.js - v2.2.1 - 2017-11-05
+/*! svg.draggable.js - v2.2.1 - 2018-05-30
 * https://github.com/wout/svg.draggable.js
-* Copyright (c) 2017 Wout Fierens; Licensed MIT */
+* Copyright (c) 2018 Wout Fierens; Licensed MIT */
 ;(function() {
 
   // creates handler, saves it
@@ -174,6 +174,8 @@
       if (c.snapToGrid != null) {
         x = x - (x % c.snapToGrid)
         y = y - (y % c.snapToGrid)
+        gx = gx - (gx % c.snapToGrid)
+        gy = gy - (gy % c.snapToGrid)
       }
 
       if(this.el instanceof SVG.G)
