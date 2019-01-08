@@ -1,6 +1,6 @@
-/*! svg.draggable.js - v2.2.1 - 2018-05-30
-* https://github.com/wout/svg.draggable.js
-* Copyright (c) 2018 Wout Fierens; Licensed MIT */
+/*! svg.draggable.js - v2.2.2 - 2019-01-08
+* https://github.com/svgdotjs/svg.draggable.js
+* Copyright (c) 2019 Wout Fierens; Licensed MIT */
 ;(function() {
 
   // creates handler, saves it
@@ -23,8 +23,8 @@
   DragHandler.prototype.transformPoint = function(event, offset){
       event = event || window.event
       var touches = event.changedTouches && event.changedTouches[0] || event
-      this.p.x = touches.pageX - (offset || 0)
-      this.p.y = touches.pageY
+      this.p.x = touches.clientX - (offset || 0)
+      this.p.y = touches.clientY
       return this.p.matrixTransform(this.m)
   }
 
