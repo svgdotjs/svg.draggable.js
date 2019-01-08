@@ -20,8 +20,8 @@
   DragHandler.prototype.transformPoint = function(event, offset){
       event = event || window.event
       var touches = event.changedTouches && event.changedTouches[0] || event
-      this.p.x = touches.pageX - (offset || 0)
-      this.p.y = touches.pageY
+      this.p.x = touches.clientX - (offset || 0)
+      this.p.y = touches.clientY
       return this.p.matrixTransform(this.m)
   }
 
