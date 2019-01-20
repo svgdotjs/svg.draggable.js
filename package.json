@@ -38,7 +38,7 @@
     "fix": "npx eslint ./src --fix",
     "lint": "npx eslint ./src",
     "rollup": "npx rollup -c .config/rollup.config.js",
-    "zip": "zip -j dist/svg.filter.js.zip -- LICENSE README.md dist/svg.filter.js dist/svg.filter.js.map dist/svg.filter.min.js dist/svg.filter.min.js.map",
+    "zip": "zip -j dist/svg.draggable.js.zip -- LICENSE README.md dist/svg.draggable.js dist/svg.draggable.js.map dist/svg.draggable.min.js dist/svg.draggable.min.js.map",
     "prepublishOnly": "rm -rf ./dist && npm run build",
     "postpublish": "npm run zip"
   },
