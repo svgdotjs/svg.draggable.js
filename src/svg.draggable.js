@@ -9,10 +9,10 @@ const getCoordsFromEvent = (ev) => {
 
 // Creates handler, saves it
 class DragHandler {
-  constructor (el) {
+  constructor (el, interval) {
     el.remember('_draggable', this)
     this.el = el
-
+    this.interval = interval
     this.drag = this.drag.bind(this)
     this.startDrag = this.startDrag.bind(this)
     this.endDrag = this.endDrag.bind(this)
@@ -54,6 +54,8 @@ class DragHandler {
     this.init(false)
 
     this.box = this.el.bbox()
+    // zibengou: no need to transform position. consider to resolve transform problem outside.
+    // const currentClick = getCoordsFromEvent(ev)
     this.lastClick = this.el.point(getCoordsFromEvent(ev))
 
     // We consider the drag done, when a touch is canceled, too
@@ -67,24 +69,36 @@ class DragHandler {
     // Fire dragstart event
     this.el.fire('dragstart', { event: ev, handler: this, box: this.box })
   }
+  
+  floor(n,interval){
+     return Math.round(n / interval) * interval
+  }
 
   // While dragging
   drag (ev) {
 
-    const { box, lastClick } = this
+    const { box, lastClick, interval, lastMove = {} } = this
 
+    // zibengou: no need to transform position. consider to resolve transform problem outside.
+    // const currentClick = getCoordsFromEvent(ev)
     const currentClick = this.el.point(getCoordsFromEvent(ev))
-    const x = box.x + (currentClick.x - lastClick.x)
-    const y = box.y + (currentClick.y - lastClick.y)
+    // zibengou: Minimum drag distance
+    const x = floor(box.x + (currentClick.x - lastClick.x), interval)
+    const y = floor(box.y + (currentClick.y - lastClick.y), interval)
+    
     const newBox = new Box(x, y, box.w, box.h)
-
+    // zibengou: Minimum drag distance
+    if (lastMove.x === x && lastMove.y === y) {
+      return newBox
+    }
+    // zibengou: move before dispatch event. That's important    
+    this.move(x, y)
+    this.lastMove = { x, y }
     if (this.el.dispatch('dragmove', {
       event: ev,
       handler: this,
       box: newBox
     }).defaultPrevented) return
-
-    this.move(x, y)
     return newBox
   }
 
@@ -118,8 +132,8 @@ class DragHandler {
 }
 
 extend(Element, {
-  draggable (enable = true) {
-    const dragHandler = this.remember('_draggable') || new DragHandler(this)
+  draggable (enable = true, interval = 1) {
+    const dragHandler = this.remember('_draggable') || new DragHandler(this, interval)
     dragHandler.init(enable)
     return this
   }
