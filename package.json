@@ -1,5 +1,5 @@
 {
-  "name": "svg.draggable.js",
+  "name": "@svgdotjs/svg.draggable.js",
   "version": "3.0.0",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "main": "dist/svg.draggable.js",
