@@ -1,6 +1,6 @@
 {
   "name": "@svgdotjs/svg.draggable.js",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "main": "dist/svg.draggable.js",
   "unpkg": "dist/svg.draggable.min.js",
@@ -26,9 +26,6 @@
     }
   ],
   "homepage": "https://github.com/svgdotjs/svg.draggable.js",
-  "files": [
-    "dist/"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/svgdotjs/svg.draggable.js.git"
