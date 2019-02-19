@@ -1,11 +1,11 @@
 {
   "name": "@svgdotjs/svg.draggable.js",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "main": "dist/svg.draggable.js",
   "unpkg": "dist/svg.draggable.min.js",
   "jsdelivr": "dist/svg.draggable.min.js",
-  "browser": "dist/svg.draggable.min.js",
+  "browser": "src/svg.draggable.js",
   "module": "src/svg.draggable.js",
   "keywords": [
     "svg.js",
@@ -14,6 +14,7 @@
   ],
   "bugs": "https://github.com/svgdotjs/svg.draggable.js/issues",
   "license": "MIT",
+  "typings": "./svg.draggable.js.d.ts",
   "author": {
     "name": "Wout Fierens"
   },
