@@ -28,7 +28,7 @@ import '@svgdotjs/svg.draggable.js'
 To make an element draggable just call `draggable()` on the element
 
 ```javascript
-var draw = SVG().addTo('canvas').size(400, 400)
+var draw = SVG().addTo('#canvas').size(400, 400)
 var rect = draw.rect(100, 100)
 
 rect.draggable()
