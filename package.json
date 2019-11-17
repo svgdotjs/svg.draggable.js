@@ -5,7 +5,7 @@
   "main": "dist/svg.draggable.js",
   "unpkg": "dist/svg.draggable.min.js",
   "jsdelivr": "dist/svg.draggable.min.js",
-  "browser": "src/svg.draggable.js",
+  "browser": "dist/svg.draggable.js",
   "module": "src/svg.draggable.js",
   "keywords": [
     "svg.js",
