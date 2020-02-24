@@ -79,20 +79,20 @@ class DragHandler {
 
     const x = box.x + dx
     const y = box.y + dy
-    const newBox = new Box(x, y, box.w, box.h)
+    this.box = new Box(x, y, box.w, box.h)
+    this.lastClick = currentClick
 
     if (
       this.el.dispatch('dragmove', {
         event: ev,
         handler: this,
-        box: newBox
+        box: this.box
       }).defaultPrevented
     ) {
       return
     }
 
     this.move(x, y)
-    return newBox
   }
 
   move (x, y) {
@@ -108,10 +108,10 @@ class DragHandler {
 
   endDrag (ev) {
     // final drag
-    const box = this.drag(ev)
+    this.drag(ev)
 
     // fire dragend event
-    this.el.fire('dragend', { event: ev, handler: this, box })
+    this.el.fire('dragend', { event: ev, handler: this, box: this.box })
 
     // unbind events
     off(window, 'mousemove.drag')

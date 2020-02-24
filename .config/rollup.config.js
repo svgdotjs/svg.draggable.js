@@ -32,7 +32,8 @@ const getBabelConfig = (targets, corejs = false) =>
         {
           modules: false,
           targets: targets || pkg.browserslist
-          //useBuiltIns: 'usage'
+          // useBuiltIns: 'usage',
+          // corejs: 3
         }
       ]
     ],
