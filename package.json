@@ -7,6 +7,11 @@
   "jsdelivr": "dist/svg.draggable.min.js",
   "browser": "src/svg.draggable.js",
   "module": "src/svg.draggable.js",
+  "files": [
+    "/dist",
+    "/src",
+    "/svg.draggable.js.d.ts"
+  ],
   "keywords": [
     "svg.js",
     "draggable",
@@ -38,37 +43,43 @@
     "rollup": "npx rollup -c .config/rollup.config.js",
     "zip": "zip -j dist/svg.draggable.js.zip -- LICENSE README.md dist/svg.draggable.js dist/svg.draggable.js.map dist/svg.draggable.min.js dist/svg.draggable.min.js.map",
     "prepublishOnly": "rm -rf ./dist && npm run build",
-    "postpublish": "npm run zip"
+    "postpublish": "npm run zip",
+    "format": "prettier-standard --format"
   },
   "engines": {
     "node": ">= 0.8.0"
   },
+  "prettier": {
+    "printWidth": 120
+  },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-external-helpers": "^7.2.0",
-    "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.2.3",
-    "@babel/runtime": "^7.2.0",
-    "@babel/runtime-corejs2": "^7.2.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.12.1",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "rollup": "^1.1.0",
-    "rollup-plugin-babel": "^4.3.1",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-filesize": "^6.0.0",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-external-helpers": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "@babel/runtime-corejs3": "^7.8.4",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier-standard": "^16.1.0",
+    "rollup": "^1.31.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-filesize": "^6.2.1",
     "rollup-plugin-multi-entry": "^2.1.0",
-    "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-terser": "^4.0.2",
-    "rollup-plugin-uglify": "^6.0.1",
-    "rollup-plugin-uglify-es": "0.0.1"
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "rollup-plugin-uglify-es": "0.0.1",
+    "typescript": "^3.8.2"
   },
   "dependencies": {
-    "@svgdotjs/svg.js": "^3.0.10"
+    "@svgdotjs/svg.js": "^3.0.16"
   }
 }

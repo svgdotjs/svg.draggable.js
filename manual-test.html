@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>svg.js</title>
     <style type="text/css">
-      html, body, #drawing {
+      html,
+      body,
+      #drawing {
         width: 100%;
         height: 100%;
         margin: 0;
@@ -16,53 +17,72 @@
   <body>
     <div id="drawing"></div>
 
-
     <script src="https://rawgit.com/wout/svg.js/2.0.1/dist/svg.js"></script>
     <script src="src/svg.draggable.js"></script>
 
     <script>
-      var e, t, s
-        , draw = SVG('drawing').attr({ 'font-size': 10 }).fill('#f06')
+      var e,
+        t,
+        s,
+        draw = SVG('drawing')
+          .attr({ 'font-size': 10 })
+          .fill('#f06')
 
       /* plain draggable */
-      draw.rect(100,100).center(150, 150).draggable()
+      draw
+        .rect(100, 100)
+        .center(150, 150)
+        .draggable()
       draw.plain('just plain draggable').center(150, 210)
 
       /* grouped draggable */
       var g = draw.group().draggable()
-      g.rect(100,100).center(400, 150);
-      g.plain('grouped draggable').center(400, 210);
+      g.rect(100, 100).center(400, 150)
+      g.plain('grouped draggable').center(400, 210)
 
       /* constraind with object */
-      e = draw.rect(100,100).center(650, 150).draggable({ minX: 400, minY: 50, maxX: 800, maxY: 400 })
-      e.on('dragstart', function() {
+      e = draw
+        .rect(100, 100)
+        .center(650, 150)
+        .draggable({ minX: 400, minY: 50, maxX: 800, maxY: 400 })
+      e.on('dragstart', function () {
         s = e.clone().opacity(0.2)
 
-        t = draw.rect(400, 350).move(400, 50).fill('none').stroke('#0fa')
-      });
-      e.on('dragmove', function() {
+        t = draw
+          .rect(400, 350)
+          .move(400, 50)
+          .fill('none')
+          .stroke('#0fa')
+      })
+      e.on('dragmove', function () {
         s.animate(200, '>').move(e.x(), e.y())
-      });
-      e.on('dragend', function() {
+      })
+      e.on('dragend', function () {
         t.remove()
         s.remove()
-      });
+      })
       draw.plain('constrained with object and ghost').center(650, 210)
 
       /* constraind with function */
-      draw.rect(100,100).center(900, 150).draggable(function(x, y) { return { x: x < 1000, y: y < 300 } })
+      draw
+        .rect(100, 100)
+        .center(900, 150)
+        .draggable(function (x, y) {
+          return { x: x < 1000, y: y < 300 }
+        })
       draw.plain('constraint with function').center(900, 210)
 
       /* group with multiple levels of draggables (dragging a part doesn't drag the group) */
       var g2 = draw.group().draggable()
-      for( var i=0; i<4; i++ ) {
-        var cx = (i&1) ? -25:25
-        var cy = (i&2) ? -25:25
-        g2.rect(50,50).center(cx,cy).draggable()
+      for (var i = 0; i < 4; i++) {
+        var cx = i & 1 ? -25 : 25
+        var cy = i & 2 ? -25 : 25
+        g2.rect(50, 50)
+          .center(cx, cy)
+          .draggable()
       }
-      g2.plain('grouped with multiple levels of draggable').center(0, 70);
-      g2.move(1150,150)
-
+      g2.plain('grouped with multiple levels of draggable').center(0, 70)
+      g2.move(1150, 150)
     </script>
   </body>
 </html>

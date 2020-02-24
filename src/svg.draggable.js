@@ -1,6 +1,6 @@
 import { Box, Element, G, extend, off, on } from '@svgdotjs/svg.js'
 
-const getCoordsFromEvent = (ev) => {
+const getCoordsFromEvent = ev => {
   if (ev.changedTouches) {
     ev = ev.changedTouches[0]
   }
@@ -22,7 +22,7 @@ class DragHandler {
   init (enabled) {
     if (enabled) {
       this.el.on('mousedown.drag', this.startDrag)
-      this.el.on('touchstart.drag', this.startDrag)
+      this.el.on('touchstart.drag', this.startDrag, { passive: false })
     } else {
       this.el.off('mousedown.drag')
       this.el.off('touchstart.drag')
@@ -34,7 +34,7 @@ class DragHandler {
     const isMouse = !ev.type.indexOf('mouse')
 
     // Check for left button
-    if (isMouse && (ev.which || ev.buttons) !== 1) {
+    if (isMouse && ev.which !== 1 && ev.buttons !== 0) {
       return
     }
 
@@ -56,13 +56,12 @@ class DragHandler {
     this.box = this.el.bbox()
     this.lastClick = this.el.point(getCoordsFromEvent(ev))
 
-    // We consider the drag done, when a touch is canceled, too
     const eventMove = (isMouse ? 'mousemove' : 'touchmove') + '.drag'
-    const eventEnd = (isMouse ? 'mouseup' : 'touchcancel.drag touchend') + '.drag'
+    const eventEnd = (isMouse ? 'mouseup' : 'touchend') + '.drag'
 
     // Bind drag and end events to window
-    on(window, eventMove, this.drag)
-    on(window, eventEnd, this.endDrag)
+    on(window, eventMove, this.drag, this, { passive: false })
+    on(window, eventEnd, this.endDrag, this, { passive: false })
 
     // Fire dragstart event
     this.el.fire('dragstart', { event: ev, handler: this, box: this.box })
@@ -70,19 +69,27 @@ class DragHandler {
 
   // While dragging
   drag (ev) {
-
     const { box, lastClick } = this
 
     const currentClick = this.el.point(getCoordsFromEvent(ev))
-    const x = box.x + (currentClick.x - lastClick.x)
-    const y = box.y + (currentClick.y - lastClick.y)
+    const dx = currentClick.x - lastClick.x
+    const dy = currentClick.y - lastClick.y
+
+    if (!dx && !dy) return box
+
+    const x = box.x + dx
+    const y = box.y + dy
     const newBox = new Box(x, y, box.w, box.h)
 
-    if (this.el.dispatch('dragmove', {
-      event: ev,
-      handler: this,
-      box: newBox
-    }).defaultPrevented) return
+    if (
+      this.el.dispatch('dragmove', {
+        event: ev,
+        handler: this,
+        box: newBox
+      }).defaultPrevented
+    ) {
+      return
+    }
 
     this.move(x, y)
     return newBox

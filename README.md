@@ -28,7 +28,9 @@ import '@svgdotjs/svg.draggable.js'
 To make an element draggable just call `draggable()` on the element
 
 ```javascript
-var draw = SVG().addTo('#canvas').size(400, 400)
+var draw = SVG()
+  .addTo('#canvas')
+  .size(400, 400)
 var rect = draw.rect(100, 100)
 
 rect.draggable()
@@ -37,6 +39,7 @@ rect.draggable()
 Yes indeed, that's it! Now the `rect` is draggable.
 
 ## Events
+
 The Plugin fires 4 different events
 
 - beforedrag (cancelable)
@@ -72,19 +75,18 @@ You can prevent the default action of `beforedrag` and `dragmove` with a call to
 The shape won't be dragged in this case. That is helpfull if you want to implement your own drag handling.
 
 ```javascript
-rect.draggable().on('beforedrag', (e) => {
+rect.draggable().on('beforedrag', e => {
   e.preventDefault()
   // no other events are bound
   // drag was completely prevented
 })
 
-rect.draggable().on('dragmove', (e) => {
+rect.draggable().on('dragmove', e => {
   e.preventDefault()
   e.detail.handler.move(100, 200)
   // events are still bound e.g. dragend will fire anyway
 })
 ```
-
 
 ### Custom Drag Behavior
 
@@ -94,11 +96,11 @@ rect.draggable().on('dragmove', (e) => {
 // Some constraints (x, y, width, height)
 const constraints = new SVG.Box(100, 100, 400, 400)
 
-rect.on('dragmove.namespace', (e) => {
-  const {handler, box} = e.detail
+rect.on('dragmove.namespace', e => {
+  const { handler, box } = e.detail
   e.preventDefault()
 
-  let {x, y} = box
+  let { x, y } = box
 
   // In case your dragged element is a nested element,
   // you are better off using the rbox() instead of bbox()
@@ -119,36 +121,33 @@ rect.on('dragmove.namespace', (e) => {
     y = constraints.y2 - box.h
   }
 
-  handler.move(x - (x%50), y - (y%50))
+  handler.move(x - (x % 50), y - (y % 50))
 })
 ```
-
 
 #### Snap to grid
 
 ```js
-rect.on('dragmove.namespace', (e) => {
-  const {handler, box} = e.detail
+rect.on('dragmove.namespace', e => {
+  const { handler, box } = e.detail
   e.preventDefault()
 
-  handler.move(box.x - box.x % 50, box.y - box.y % 50)
+  handler.move(box.x - (box.x % 50), box.y - (box.y % 50))
 })
-
 ```
 
 ## Remove
+
 The draggable functionality can be removed calling draggable again with false as argument:
 
 ```javascript
 rect.draggable(false)
 ```
 
-
 ## Restrictions
 
 - If your root-svg is transformed this plugin won't work properly in Firefox. Viewbox however is not affected.
 
-
-
 ## Dependencies
+
 This module requires svg.js >= v3.0.10
