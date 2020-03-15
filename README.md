@@ -9,19 +9,20 @@ svg.draggable.js is licensed under the terms of the MIT License.
 Install the plugin:
 
 ```sh
-npm install @svgdotjs/svg.draggable.js
+npm install @svgdotjs/svg.js @svgdotjs/svg.draggable.js
 ```
 
 Include this plugin after including the svg.js library in your html document.
 
 ```html
-<script src="svg.js"></script>
-<script src="svg.draggable.js"></script>
+<script src="node_modules/@svgdotjs/svg.js/dist/svg.js"></script>
+<script src="node_modules/@svgdotjs/svg.draggable.js/dist/svg.draggable.js"></script>
 ```
 
 Or for esm just require it:
 
 ```js
+import { SVG } from '@svgdotjs/svg.js'
 import '@svgdotjs/svg.draggable.js'
 ```
 
