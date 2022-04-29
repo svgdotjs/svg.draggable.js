@@ -10,6 +10,7 @@
         width: 100%;
         height: 100%;
         margin: 0;
+        border: 1px solid black;
       }
     </style>
   </head>
@@ -18,13 +19,14 @@
     <div id="drawing"></div>
 
     <script src="https://unpkg.com/@svgdotjs/svg.js"></script>
-    <script src="src/svg.draggable.js"></script>
+    <script src="dist/svg.draggable.js"></script>
 
     <script>
       var e,
         t,
         s,
-        draw = SVG('drawing')
+        draw = SVG().addTo('#drawing')
+          .size("100%", "400")
           .attr({ 'font-size': 10 })
           .fill('#f06')
 
