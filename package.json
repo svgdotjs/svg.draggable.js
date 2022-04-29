@@ -67,7 +67,7 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "prettier-standard": "^16.1.0",
+    "prettier-standard": "^15.0.1",
     "rollup": "^1.31.1",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
@@ -75,7 +75,7 @@
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.2.0",
-    "rollup-plugin-uglify": "^6.0.4",
+    "rollup-plugin-uglify": "^5.0.2",
     "rollup-plugin-uglify-es": "0.0.1",
     "typescript": "^3.8.2"
   },
