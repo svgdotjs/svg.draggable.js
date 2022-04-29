@@ -10,6 +10,7 @@
         width: 100%;
         height: 100%;
         margin: 0;
+        border: 1px solid black;
       }
     </style>
   </head>
@@ -17,14 +18,16 @@
   <body>
     <div id="drawing"></div>
 
-    <script src="https://rawgit.com/wout/svg.js/2.0.1/dist/svg.js"></script>
-    <script src="src/svg.draggable.js"></script>
+    <script src="https://unpkg.com/@svgdotjs/svg.js"></script>
+    <script src="dist/svg.draggable.js"></script>
 
     <script>
       var e,
-        t,
-        s,
-        draw = SVG('drawing')
+        constrainingShape,
+        ghostShape,
+        draw = SVG()
+          .addTo('#drawing')
+          .size('100%', '400')
           .attr({ 'font-size': 10 })
           .fill('#f06')
 
@@ -33,6 +36,7 @@
         .rect(100, 100)
         .center(150, 150)
         .draggable()
+
       draw.plain('just plain draggable').center(150, 210)
 
       /* grouped draggable */
@@ -40,36 +44,89 @@
       g.rect(100, 100).center(400, 150)
       g.plain('grouped draggable').center(400, 210)
 
-      /* constraind with object */
-      e = draw
+      /* constrained with object */
+      constrainedWithObject = draw
         .rect(100, 100)
         .center(650, 150)
-        .draggable({ minX: 400, minY: 50, maxX: 800, maxY: 400 })
-      e.on('dragstart', function () {
-        s = e.clone().opacity(0.2)
+        .draggable()
+        .on('dragstart', function () {
+          ghostShape = draw.put(constrainedWithObject.clone().opacity(0.2))
 
-        t = draw
-          .rect(400, 350)
-          .move(400, 50)
-          .fill('none')
-          .stroke('#0fa')
-      })
-      e.on('dragmove', function () {
-        s.animate(200, '>').move(e.x(), e.y())
-      })
-      e.on('dragend', function () {
-        t.remove()
-        s.remove()
-      })
+          constrainingShape = draw
+            .rect(400, 350)
+            .move(400, 50)
+            .fill('none')
+            .stroke('#0fa')
+        })
+        .on('dragmove', e => {
+          e.preventDefault()
+
+          const { handler, box } = e.detail
+          let { x, y } = box
+
+          const constraints = constrainingShape.bbox()
+
+          if (x < constraints.x) {
+            x = constraints.x
+          }
+
+          if (y < constraints.y) {
+            y = constraints.y
+          }
+
+          if (box.x2 > constraints.x2) {
+            x = constraints.x2 - box.w
+          }
+
+          if (box.y2 > constraints.y2) {
+            y = constraints.y2 - box.h
+          }
+
+          handler.move(x, y)
+          ghostShape.animate(300, '>').move(x, y)
+        })
+        .on('dragend', function () {
+          constrainingShape.remove()
+          ghostShape.remove()
+        })
       draw.plain('constrained with object and ghost').center(650, 210)
 
       /* constraind with function */
+      // Some constraints (x, y, width, height)
+      const constraints = new SVG.Box(750, 0, 300, 300)
+
       draw
         .rect(100, 100)
         .center(900, 150)
-        .draggable(function (x, y) {
-          return { x: x < 1000, y: y < 300 }
+        .draggable()
+        .on('dragmove', e => {
+          const { handler, box } = e.detail
+          e.preventDefault()
+
+          let { x, y } = box
+
+          // In case your dragged element is a nested element,
+          // you are better off using the rbox() instead of bbox()
+
+          if (x < constraints.x) {
+            x = constraints.x
+          }
+
+          if (y < constraints.y) {
+            y = constraints.y
+          }
+
+          if (box.x2 > constraints.x2) {
+            x = constraints.x2 - box.w
+          }
+
+          if (box.y2 > constraints.y2) {
+            y = constraints.y2 - box.h
+          }
+
+          handler.move(x, y)
         })
+
       draw.plain('constraint with function').center(900, 210)
 
       /* group with multiple levels of draggables (dragging a part doesn't drag the group) */
