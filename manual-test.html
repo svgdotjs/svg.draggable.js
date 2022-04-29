@@ -23,8 +23,8 @@
 
     <script>
       var e,
-        t,
-        s,
+        constrainingShape,
+        ghostShape,
         draw = SVG().addTo('#drawing')
           .size("100%", "400")
           .attr({ 'font-size': 10 })
@@ -35,6 +35,7 @@
         .rect(100, 100)
         .center(150, 150)
         .draggable()
+        
       draw.plain('just plain draggable').center(150, 210)
 
       /* grouped draggable */
@@ -42,34 +43,54 @@
       g.rect(100, 100).center(400, 150)
       g.plain('grouped draggable').center(400, 210)
 
-      /* constraind with object */
-      e = draw
+
+      /* constrained with object */
+      constrainedWithObject = draw
         .rect(100, 100)
         .center(650, 150)
-        .draggable({ minX: 400, minY: 50, maxX: 800, maxY: 400 })
+        .draggable()
+        .on('dragstart', function () {
+          ghostShape = draw.put(constrainedWithObject.clone().opacity(0.2));
 
-      e.on('dragstart', function () {
-        s = draw.put(e.clone().opacity(0.2));
+          constrainingShape = draw
+            .rect(400, 350)
+            .move(400, 50)
+            .fill('none')
+            .stroke('#0fa')
+        })
+        .on('dragmove', e => {
+          e.preventDefault()
 
-        t = draw
-          .rect(400, 350)
-          .move(400, 50)
-          .fill('none')
-          .stroke('#0fa')
+          const { handler, box } = e.detail
+          let { x, y } = box
+       
+          const constraints = constrainingShape.bbox()
+
+          if (x < constraints.x) {
+           x = constraints.x
+          }
+
+          if (y < constraints.y) {
+            y = constraints.y
+          }
+
+          if (box.x2 > constraints.x2) {
+            x = constraints.x2 - box.w
+          }
+
+          if (box.y2 > constraints.y2) {
+           y = constraints.y2 - box.h
+          }
+
+          handler.move(x,y)
+          ghostShape.animate(300, '>').move(x, y)
       })
-
-      e.on('dragmove', function () {
-        
-        s.animate(200, '>').move(e.x(), e.y())
-
-
-      })
-
-      e.on('dragend', function () {
-        t.remove()
-        s.remove()
+      .on('dragend', function () {
+        constrainingShape.remove()
+        ghostShape.remove()
       })
       draw.plain('constrained with object and ghost').center(650, 210)
+
 
       /* constraind with function */
       // Some constraints (x, y, width, height)
@@ -80,6 +101,7 @@
         .center(900, 150)
         .draggable()
         .on('dragmove', e => {
+
           const { handler, box } = e.detail
           e.preventDefault()
 
