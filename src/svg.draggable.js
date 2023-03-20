@@ -1,6 +1,6 @@
 import { Box, Element, G, extend, off, on } from '@svgdotjs/svg.js'
 
-const getCoordsFromEvent = ev => {
+const getCoordsFromEvent = (ev) => {
   if (ev.changedTouches) {
     ev = ev.changedTouches[0]
   }
@@ -9,7 +9,7 @@ const getCoordsFromEvent = ev => {
 
 // Creates handler, saves it
 class DragHandler {
-  constructor (el) {
+  constructor(el) {
     el.remember('_draggable', this)
     this.el = el
 
@@ -19,7 +19,7 @@ class DragHandler {
   }
 
   // Enables or disabled drag based on input
-  init (enabled) {
+  init(enabled) {
     if (enabled) {
       this.el.on('mousedown.drag', this.startDrag)
       this.el.on('touchstart.drag', this.startDrag, { passive: false })
@@ -30,7 +30,7 @@ class DragHandler {
   }
 
   // Start dragging
-  startDrag (ev) {
+  startDrag(ev) {
     const isMouse = !ev.type.indexOf('mouse')
 
     // Check for left button
@@ -39,7 +39,10 @@ class DragHandler {
     }
 
     // Fire beforedrag event
-    if (this.el.dispatch('beforedrag', { event: ev, handler: this }).defaultPrevented) {
+    if (
+      this.el.dispatch('beforedrag', { event: ev, handler: this })
+        .defaultPrevented
+    ) {
       return
     }
 
@@ -68,7 +71,7 @@ class DragHandler {
   }
 
   // While dragging
-  drag (ev) {
+  drag(ev) {
     const { box, lastClick } = this
 
     const currentClick = this.el.point(getCoordsFromEvent(ev))
@@ -86,7 +89,7 @@ class DragHandler {
       this.el.dispatch('dragmove', {
         event: ev,
         handler: this,
-        box: this.box
+        box: this.box,
       }).defaultPrevented
     ) {
       return
@@ -95,7 +98,7 @@ class DragHandler {
     this.move(x, y)
   }
 
-  move (x, y) {
+  move(x, y) {
     // Svg elements bbox depends on their content even though they have
     // x, y, width and height - strange!
     // Thats why we handle them the same as groups
@@ -106,7 +109,7 @@ class DragHandler {
     }
   }
 
-  endDrag (ev) {
+  endDrag(ev) {
     // final drag
     this.drag(ev)
 
@@ -125,9 +128,9 @@ class DragHandler {
 }
 
 extend(Element, {
-  draggable (enable = true) {
+  draggable(enable = true) {
     const dragHandler = this.remember('_draggable') || new DragHandler(this)
     dragHandler.init(enable)
     return this
-  }
+  },
 })

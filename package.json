@@ -2,11 +2,15 @@
   "name": "@svgdotjs/svg.draggable.js",
   "version": "3.0.3",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
+  "type": "module",
   "main": "dist/svg.draggable.js",
-  "unpkg": "dist/svg.draggable.min.js",
-  "jsdelivr": "dist/svg.draggable.min.js",
-  "browser": "dist/svg.draggable.esm.js",
   "module": "src/svg.draggable.js",
+  "exports": {
+    "import": "./src/svg.draggable.js",
+    "require": "./dist/svg.draggable.js"
+  },
+  "unpkg": "dist/svg.draggable.js",
+  "jsdelivr": "dist/svg.draggable.js",
   "files": [
     "/dist",
     "/src",
@@ -37,48 +41,19 @@
     "url": "https://github.com/svgdotjs/svg.draggable.js.git"
   },
   "scripts": {
-    "build": "npm run fix && npm run rollup",
-    "fix": "npx eslint ./src --fix",
-    "lint": "npx eslint ./src",
-    "rollup": "npx rollup -c .config/rollup.config.js",
-    "zip": "zip -j dist/svg.draggable.js.zip -- LICENSE README.md dist/svg.draggable.js dist/svg.draggable.js.map dist/svg.draggable.min.js dist/svg.draggable.min.js.map",
-    "prepublishOnly": "rm -rf ./dist && npm run build",
-    "postpublish": "npm run zip",
-    "format": "prettier-standard --format"
-  },
-  "engines": {
-    "node": ">= 0.8.0"
-  },
-  "prettier": {
-    "printWidth": 120
+    "build": "npm run fix && vite build",
+    "fix": "npx eslint --fix",
+    "prepublishOnly": "rm -rf ./dist && npm run build"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/plugin-external-helpers": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/polyfill": "^7.8.3",
-    "@babel/preset-env": "^7.8.4",
-    "@babel/runtime": "^7.8.4",
-    "@babel/runtime-corejs3": "^7.8.4",
-    "eslint": "^8.14.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "prettier-standard": "^15.0.1",
-    "rollup": "^2.70.2",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-filesize": "^9.1.2",
-    "rollup-plugin-multi-entry": "^2.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-uglify": "^5.0.2",
-    "rollup-plugin-uglify-es": "0.0.1",
-    "serve": "^13.0.2",
-    "typescript": "^4.6.4"
+    "eslint": "^8.36.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^2.8.5",
+    "typescript": "^5.0.2",
+    "vite": "^4.2.1"
   },
   "dependencies": {
-    "@svgdotjs/svg.js": "^3.0.16"
+    "@svgdotjs/svg.js": "^3.1.2"
   }
 }
