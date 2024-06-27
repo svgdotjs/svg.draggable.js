@@ -1,6 +1,6 @@
 {
   "name": "@svgdotjs/svg.draggable.js",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "type": "module",
   "main": "dist/svg.draggable.js",
@@ -53,7 +53,7 @@
     "typescript": "^5.0.2",
     "vite": "^4.2.1"
   },
-  "dependencies": {
-    "@svgdotjs/svg.js": "^3.1.2"
+  "peerDependencies": {
+    "@svgdotjs/svg.js": "^3.2.4"
   }
 }
