@@ -1,13 +1,14 @@
 {
   "name": "@svgdotjs/svg.draggable.js",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "type": "module",
   "main": "dist/svg.draggable.js",
   "module": "src/svg.draggable.js",
   "exports": {
     "import": "./src/svg.draggable.js",
-    "require": "./dist/svg.draggable.js"
+    "require": "./dist/svg.draggable.js",
+    "types": "./svg.draggable.js.d.ts"
   },
   "unpkg": "dist/svg.draggable.js",
   "jsdelivr": "dist/svg.draggable.js",
