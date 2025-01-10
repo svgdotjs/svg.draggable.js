@@ -1,20 +1,33 @@
 {
   "name": "@svgdotjs/svg.draggable.js",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "type": "module",
   "main": "dist/svg.draggable.js",
   "module": "src/svg.draggable.js",
   "exports": {
-    "import": "./src/svg.draggable.js",
-    "require": "./dist/svg.draggable.js"
+    ".": {
+      "import": {
+        "types": "./svg.draggable.js.d.ts",
+        "default": "./src/svg.draggable.js"
+      },
+      "require": {
+        "types": "./svg.draggable.js.d.cts",
+        "default": "./src/svg.draggable.js"
+      },
+      "browser": {
+        "types": "./svg.draggable.js.d.ts",
+        "default": "./src/svg.draggable.js"
+      }
+    }
   },
   "unpkg": "dist/svg.draggable.js",
   "jsdelivr": "dist/svg.draggable.js",
   "files": [
     "/dist",
     "/src",
-    "/svg.draggable.js.d.ts"
+    "/svg.draggable.js.d.ts",
+    "/svg.draggable.js.d.cts"
   ],
   "keywords": [
     "svg.js",
@@ -38,7 +51,7 @@
   "homepage": "https://github.com/svgdotjs/svg.draggable.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/svgdotjs/svg.draggable.js.git"
+    "url": "git+https://github.com/svgdotjs/svg.draggable.js.git"
   },
   "scripts": {
     "build": "npm run fix && vite build",
