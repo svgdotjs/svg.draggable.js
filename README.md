@@ -29,9 +29,7 @@ import '@svgdotjs/svg.draggable.js'
 To make an element draggable just call `draggable()` on the element
 
 ```javascript
-var draw = SVG()
-  .addTo('#canvas')
-  .size(400, 400)
+var draw = SVG().addTo('#canvas').size(400, 400)
 var rect = draw.rect(100, 100)
 
 rect.draggable()
@@ -63,7 +61,7 @@ rect.off('dragstart.namespace')
 
 ### event.detail
 
-`beforedrag`, `dragstart`, `dragmove` and `dragend` gives you the mouse / touch `event` and the `handler` which calculates the drag.
+`beforedrag`, `dragstart`, `dragmove` and `dragend` gives you the mouse / touch `event` and the `handler` which calculates the drag. The `dragmove` event also gives you the `dx` and `dy` values for your convenience.
 Except for `beforedrag` the events also give you `detail.box` which holds the initial or new bbox of the element before or after the drag.
 
 You can use this property to implement custom drag behavior as seen below.
@@ -76,13 +74,13 @@ You can prevent the default action of `beforedrag` and `dragmove` with a call to
 The shape won't be dragged in this case. That is helpfull if you want to implement your own drag handling.
 
 ```javascript
-rect.draggable().on('beforedrag', e => {
+rect.draggable().on('beforedrag', (e) => {
   e.preventDefault()
   // no other events are bound
   // drag was completely prevented
 })
 
-rect.draggable().on('dragmove', e => {
+rect.draggable().on('dragmove', (e) => {
   e.preventDefault()
   e.detail.handler.move(100, 200)
   // events are still bound e.g. dragend will fire anyway
@@ -97,7 +95,7 @@ rect.draggable().on('dragmove', e => {
 // Some constraints (x, y, width, height)
 const constraints = new SVG.Box(100, 100, 400, 400)
 
-rect.on('dragmove.namespace', e => {
+rect.on('dragmove.namespace', (e) => {
   const { handler, box } = e.detail
   e.preventDefault()
 
@@ -129,7 +127,7 @@ rect.on('dragmove.namespace', e => {
 #### Snap to grid
 
 ```js
-rect.on('dragmove.namespace', e => {
+rect.on('dragmove.namespace', (e) => {
   const { handler, box } = e.detail
   e.preventDefault()
 

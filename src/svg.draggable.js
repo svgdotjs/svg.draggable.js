@@ -90,6 +90,8 @@ class DragHandler {
         event: ev,
         handler: this,
         box: this.box,
+        dx,
+        dy,
       }).defaultPrevented
     ) {
       return
