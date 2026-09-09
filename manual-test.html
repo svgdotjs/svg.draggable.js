@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -32,10 +32,7 @@
           .fill('#f06')
 
       /* plain draggable */
-      draw
-        .rect(100, 100)
-        .center(150, 150)
-        .draggable()
+      draw.rect(100, 100).center(150, 150).draggable()
 
       draw.plain('just plain draggable').center(150, 210)
 
@@ -58,7 +55,7 @@
             .fill('none')
             .stroke('#0fa')
         })
-        .on('dragmove', e => {
+        .on('dragmove', (e) => {
           e.preventDefault()
 
           const { handler, box } = e.detail
@@ -99,7 +96,7 @@
         .rect(100, 100)
         .center(900, 150)
         .draggable()
-        .on('dragmove', e => {
+        .on('dragmove', (e) => {
           const { handler, box } = e.detail
           e.preventDefault()
 
@@ -134,9 +131,7 @@
       for (var i = 0; i < 4; i++) {
         var cx = i & 1 ? -25 : 25
         var cy = i & 2 ? -25 : 25
-        g2.rect(50, 50)
-          .center(cx, cy)
-          .draggable()
+        g2.rect(50, 50).center(cx, cy).draggable()
       }
       g2.plain('grouped with multiple levels of draggable').center(0, 70)
       g2.move(1150, 150)
