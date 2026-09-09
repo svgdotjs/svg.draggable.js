@@ -4,30 +4,28 @@
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "type": "module",
   "main": "dist/svg.draggable.js",
-  "module": "src/svg.draggable.js",
+  "module": "dist/svg.draggable.mjs",
   "exports": {
     ".": {
+      "browser": {
+        "types": "./dist/svg.draggable.d.mts",
+        "default": "./dist/svg.draggable.mjs"
+      },
       "import": {
-        "types": "./svg.draggable.js.d.ts",
-        "default": "./src/svg.draggable.js"
+        "types": "./dist/svg.draggable.d.mts",
+        "default": "./dist/svg.draggable.mjs"
       },
       "require": {
-        "types": "./svg.draggable.js.d.cts",
-        "default": "./src/svg.draggable.js"
-      },
-      "browser": {
-        "types": "./svg.draggable.js.d.ts",
-        "default": "./src/svg.draggable.js"
+        "types": "./dist/svg.draggable.d.ts",
+        "default": "./dist/svg.draggable.js"
       }
-    }
+    },
+    "./package.json": "./package.json"
   },
   "unpkg": "dist/svg.draggable.js",
   "jsdelivr": "dist/svg.draggable.js",
   "files": [
-    "/dist",
-    "/src",
-    "/svg.draggable.js.d.ts",
-    "/svg.draggable.js.d.cts"
+    "/dist"
   ],
   "keywords": [
     "svg.js",
@@ -36,7 +34,7 @@
   ],
   "bugs": "https://github.com/svgdotjs/svg.draggable.js/issues",
   "license": "MIT",
-  "typings": "./svg.draggable.js.d.ts",
+  "typings": "./dist/svg.draggable.d.ts",
   "author": {
     "name": "Wout Fierens"
   },
