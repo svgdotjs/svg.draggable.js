@@ -54,16 +54,17 @@
   },
   "scripts": {
     "build": "pnpm fix && vite build",
-    "fix": "eslint --fix .",
+    "fix": "prettier --write . && eslint --fix .",
+    "lint": "prettier --check . && eslint .",
     "prepublishOnly": "rm -rf ./dist && pnpm build"
   },
   "devDependencies": {
-    "eslint": "^8.36.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-config-prettier": "^8.8.0",
-    "prettier": "^2.8.5",
-    "typescript": "^5.0.2",
-    "vite": "^4.2.1"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.10.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
   },
   "peerDependencies": {
     "@svgdotjs/svg.js": "^3.2.4"
