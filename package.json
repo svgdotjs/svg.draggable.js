@@ -3,6 +3,7 @@
   "version": "3.0.6",
   "description": "An extension for svg.js which allows to drag elements with your mouse",
   "type": "module",
+  "packageManager": "pnpm@11.26.0",
   "main": "dist/svg.draggable.js",
   "module": "dist/svg.draggable.mjs",
   "exports": {
@@ -52,9 +53,9 @@
     "url": "git+https://github.com/svgdotjs/svg.draggable.js.git"
   },
   "scripts": {
-    "build": "npm run fix && vite build",
-    "fix": "npx eslint --fix",
-    "prepublishOnly": "rm -rf ./dist && npm run build"
+    "build": "pnpm fix && vite build",
+    "fix": "eslint --fix .",
+    "prepublishOnly": "rm -rf ./dist && pnpm build"
   },
   "devDependencies": {
     "eslint": "^8.36.0",
