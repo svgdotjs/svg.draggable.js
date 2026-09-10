@@ -54,22 +54,21 @@
     "url": "git+https://github.com/svgdotjs/svg.draggable.js.git"
   },
   "scripts": {
-    "build": "pnpm fix && vite build",
+    "build": "pnpm fix && tsc && vite build",
     "demo": "vite demo",
     "demo:build": "vite build demo --outDir ../demo-dist --emptyOutDir",
-    "fix": "prettier --write . && eslint --fix .",
-    "lint": "prettier --check . && eslint .",
+    "fix": "oxfmt --write . && oxlint -D correctness --fix .",
+    "lint": "oxfmt --check . && oxlint -D correctness .",
     "prepublishOnly": "rm -rf ./dist && pnpm build && pnpm zip",
     "zip": "zip -j dist/svg.draggable.js.zip -- LICENSE README.md dist/svg.draggable.js"
   },
   "peerDependencies": {
-    "@svgdotjs/svg.js": "^3.2.4"
+    "@svgdotjs/svg.js": "^3.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.10.0",
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.9.6",
+    "@svgdotjs/svg.js": "^3.2.8",
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
     "typescript": "^7.0.2",
     "vite": "^8.2.2"
   }

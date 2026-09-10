@@ -91,7 +91,7 @@ class DragHandler {
         handler: this,
         box: this.box,
         dx,
-        dy,
+        dy
       }).defaultPrevented
     ) {
       return
@@ -134,5 +134,5 @@ extend(Element, {
     const dragHandler = this.remember('_draggable') || new DragHandler(this)
     dragHandler.init(enable)
     return this
-  },
+  }
 })
