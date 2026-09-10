@@ -54,12 +54,12 @@
     "url": "git+https://github.com/svgdotjs/svg.draggable.js.git"
   },
   "scripts": {
-    "build": "pnpm fix && tsc && vite build",
+    "build": "tsc && vite build",
     "demo": "vite demo",
     "demo:build": "vite build demo --outDir ../demo-dist --emptyOutDir",
     "fix": "oxfmt --write . && oxlint -D correctness --fix .",
     "lint": "oxfmt --check . && oxlint -D correctness .",
-    "prepublishOnly": "rm -rf ./dist && pnpm build && pnpm zip",
+    "prepublishOnly": "rm -rf ./dist && pnpm lint && pnpm build && pnpm zip",
     "zip": "zip -j dist/svg.draggable.js.zip -- LICENSE README.md dist/svg.draggable.js"
   },
   "peerDependencies": {
