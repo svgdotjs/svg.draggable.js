@@ -19,6 +19,8 @@ Include this plugin after including the svg.js library in your html document.
 <script src="node_modules/@svgdotjs/svg.draggable.js/dist/svg.draggable.js"></script>
 ```
 
+A bundle is also attached to every [release](https://github.com/svgdotjs/svg.draggable.js/releases).
+
 Or for esm just require it:
 
 ```js
