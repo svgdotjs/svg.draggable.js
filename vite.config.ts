@@ -31,21 +31,21 @@ const distExtras = {
     this.emitFile({
       type: 'asset',
       fileName: 'package.json',
-      source: JSON.stringify({ type: 'commonjs' }, null, 2) + '\n',
+      source: JSON.stringify({ type: 'commonjs' }, null, 2) + '\n'
     })
 
     // One maintained declaration, copied for both module formats.
     this.emitFile({
       type: 'asset',
       fileName: 'svg.draggable.d.mts',
-      source: types,
+      source: types
     })
     this.emitFile({
       type: 'asset',
       fileName: 'svg.draggable.d.ts',
-      source: types,
+      source: types
     })
-  },
+  }
 }
 
 export default defineConfig({
@@ -53,7 +53,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/svg.draggable.js',
-      name: 'SVG',
+      name: 'SVG'
     },
     rollupOptions: {
       external: ['@svgdotjs/svg.js'],
@@ -66,7 +66,7 @@ export default defineConfig({
           banner: headerLong,
           minify: true,
           // without this the minifier drops the banner
-          comments: { legal: true },
+          comments: { legal: true }
         },
         // Must stay esm, so it resolves svg.js through the same import
         // condition the consumer used.
@@ -74,9 +74,9 @@ export default defineConfig({
           format: 'es',
           entryFileNames: 'svg.draggable.mjs',
           banner: headerLong,
-          minify: false,
-        },
-      ],
-    },
-  },
+          minify: false
+        }
+      ]
+    }
+  }
 })
