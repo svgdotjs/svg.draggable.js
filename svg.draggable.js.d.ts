@@ -5,3 +5,5 @@ declare module '@svgdotjs/svg.js' {
     draggable(enable?: boolean): this
   }
 }
+
+export {}
