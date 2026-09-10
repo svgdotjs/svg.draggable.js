@@ -2,8 +2,9 @@ import { readFileSync } from 'node:fs'
 
 import { defineConfig } from 'vite'
 
-import pkg from './package.json'
-const buildDate = Date()
+import pkg from './package.json' with { type: 'json' }
+
+const buildDate = new Date().toISOString()
 
 const headerLong = `/*!
 * ${pkg.name} - ${pkg.description}
@@ -64,6 +65,8 @@ export default defineConfig({
           globals: { '@svgdotjs/svg.js': 'SVG' },
           banner: headerLong,
           minify: true,
+          // without this the minifier drops the banner
+          comments: { legal: true },
         },
         // Must stay esm, so it resolves svg.js through the same import
         // condition the consumer used. A cjs copy would extend a second,

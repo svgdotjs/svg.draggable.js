@@ -60,6 +60,9 @@
     "prepublishOnly": "rm -rf ./dist && pnpm build && pnpm zip",
     "zip": "zip -j dist/svg.draggable.js.zip -- LICENSE README.md dist/svg.draggable.js"
   },
+  "peerDependencies": {
+    "@svgdotjs/svg.js": "^3.2.4"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.10.0",
@@ -67,8 +70,5 @@
     "prettier": "^3.9.6",
     "typescript": "^7.0.2",
     "vite": "^8.2.2"
-  },
-  "peerDependencies": {
-    "@svgdotjs/svg.js": "^3.2.4"
   }
 }
