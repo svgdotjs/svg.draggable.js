@@ -69,8 +69,7 @@ export default defineConfig({
           comments: { legal: true },
         },
         // Must stay esm, so it resolves svg.js through the same import
-        // condition the consumer used. A cjs copy would extend a second,
-        // unrelated Element.
+        // condition the consumer used.
         {
           format: 'es',
           entryFileNames: 'svg.draggable.mjs',
