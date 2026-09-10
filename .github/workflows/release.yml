@@ -1,0 +1,79 @@
+name: Release
+
+# Manual trigger: pick the version, everything else is automatic.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'patch, minor, major or an explicit version like 1.2.3'
+        required: true
+        default: patch
+
+permissions:
+  contents: write # push the release commit + tag, create the release
+  id-token: write # npm trusted publishing (OIDC), no token needed
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      # trusted publishing needs npm >= 11.5.1
+      - run: npm install -g npm@latest
+
+      - run: pnpm install --frozen-lockfile
+
+      # nothing gets published that does not lint, typecheck, test and build
+      - run: pnpm lint
+      - run: pnpm run --if-present test
+      - run: pnpm build
+
+      - name: Bump the version, commit and tag it
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          npm version '${{ inputs.version }}' -m 'Release %s' --tag-version-prefix=''
+
+      # Staged, not published: the tarball lands in npm's staging area and only
+      # goes live once a maintainer approves it with 2FA. A compromised CI run
+      # cannot make anything public on its own.
+      # prepublishOnly rebuilds dist/ and packages the zip from the tagged state
+      - name: Stage the release on npm
+        run: npm stage publish
+
+      - name: Push the release commit and the tag
+        run: git push --follow-tags
+
+      - name: Create the github release with the zip attached
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p 'require("./package.json").version')
+          gh release create "$version" --title "$version" --generate-notes dist/*.zip
+
+      - name: Say how to approve it
+        run: |
+          version=$(node -p 'require("./package.json").version')
+          name=$(node -p 'require("./package.json").name')
+          {
+            echo "### Staged on npm, waiting for approval"
+            echo
+            echo '```bash'
+            echo "npm stage list $name"
+            echo "npm stage download <stage-id>   # inspect the tarball"
+            echo "npm stage approve <stage-id>    # 2FA, this makes $version live"
+            echo "npm stage reject <stage-id>"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
