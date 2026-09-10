@@ -2,7 +2,7 @@ import js from '@eslint/js'
 import prettier from 'eslint-config-prettier'
 
 export default [
-  { ignores: ['node_modules/**', 'dist/**', '**/*.ts'] },
+  { ignores: ['node_modules/**', 'dist/**', 'demo-dist/**', '**/*.ts'] },
   js.configs.recommended,
   // last, so it can turn off the rules prettier owns
   prettier,
@@ -20,6 +20,15 @@ export default [
     files: ['src/**/*.js'],
     languageOptions: {
       globals: {
+        window: 'readonly',
+      },
+    },
+  },
+  {
+    files: ['demo/**/*.js'],
+    languageOptions: {
+      globals: {
+        document: 'readonly',
         window: 'readonly',
       },
     },

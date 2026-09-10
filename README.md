@@ -152,3 +152,11 @@ rect.draggable(false)
 ## Dependencies
 
 This module requires svg.js >= v3.0.10
+
+## Demo
+
+```bash
+$ pnpm demo
+```
+
+Starts a vite dev server with the demo from `demo/`.

@@ -55,6 +55,8 @@
   },
   "scripts": {
     "build": "pnpm fix && vite build",
+    "demo": "vite demo",
+    "demo:build": "vite build demo --outDir ../demo-dist --emptyOutDir",
     "fix": "prettier --write . && eslint --fix .",
     "lint": "prettier --check . && eslint .",
     "prepublishOnly": "rm -rf ./dist && pnpm build && pnpm zip",
